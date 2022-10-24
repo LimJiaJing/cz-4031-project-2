@@ -1,0 +1,141 @@
+[
+  {
+    "Plan": {
+      "Node Type": "Sort",
+      "Parallel Aware": false,
+      "Async Capable": false,
+      "Startup Cost": 146777.92,
+      "Total Cost": 146778.42,
+      "Plan Rows": 200,
+      "Plan Width": 16,
+      "Sort Key": ["(count(*)) DESC", "(count(orders.o_orderkey)) DESC"],
+      "Plans": [
+        {
+          "Node Type": "Aggregate",
+          "Strategy": "Hashed",
+          "Partial Mode": "Simple",
+          "Parent Relationship": "Outer",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 146768.28,
+          "Total Cost": 146770.28,
+          "Plan Rows": 200,
+          "Plan Width": 16,
+          "Group Key": ["count(orders.o_orderkey)"],
+          "Planned Partitions": 0,
+          "Plans": [
+            {
+              "Node Type": "Aggregate",
+              "Strategy": "Sorted",
+              "Partial Mode": "Finalize",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 106515.83,
+              "Total Cost": 144518.28,
+              "Plan Rows": 150000,
+              "Plan Width": 12,
+              "Group Key": ["customer.c_custkey"],
+              "Plans": [
+                {
+                  "Node Type": "Gather Merge",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Startup Cost": 106515.83,
+                  "Total Cost": 141518.28,
+                  "Plan Rows": 300000,
+                  "Plan Width": 12,
+                  "Workers Planned": 2,
+                  "Plans": [
+                    {
+                      "Node Type": "Sort",
+                      "Parent Relationship": "Outer",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 105515.81,
+                      "Total Cost": 105890.81,
+                      "Plan Rows": 150000,
+                      "Plan Width": 12,
+                      "Sort Key": ["customer.c_custkey"],
+                      "Plans": [
+                        {
+                          "Node Type": "Aggregate",
+                          "Strategy": "Hashed",
+                          "Partial Mode": "Partial",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 83671.54,
+                          "Total Cost": 90054.36,
+                          "Plan Rows": 150000,
+                          "Plan Width": 12,
+                          "Group Key": ["customer.c_custkey"],
+                          "Planned Partitions": 4,
+                          "Plans": [
+                            {
+                              "Node Type": "Hash Join",
+                              "Parent Relationship": "Outer",
+                              "Parallel Aware": true,
+                              "Async Capable": false,
+                              "Join Type": "Left",
+                              "Startup Cost": 38067.0,
+                              "Total Cost": 48515.29,
+                              "Plan Rows": 625000,
+                              "Plan Width": 8,
+                              "Inner Unique": false,
+                              "Hash Cond": "(customer.c_custkey = orders.o_custkey)",
+                              "Plans": [
+                                {
+                                  "Node Type": "Seq Scan",
+                                  "Parent Relationship": "Outer",
+                                  "Parallel Aware": true,
+                                  "Async Capable": false,
+                                  "Relation Name": "customer",
+                                  "Alias": "customer",
+                                  "Startup Cost": 0.0,
+                                  "Total Cost": 4209.0,
+                                  "Plan Rows": 62500,
+                                  "Plan Width": 4
+                                },
+                                {
+                                  "Node Type": "Hash",
+                                  "Parent Relationship": "Inner",
+                                  "Parallel Aware": true,
+                                  "Async Capable": false,
+                                  "Startup Cost": 27812.5,
+                                  "Total Cost": 27812.5,
+                                  "Plan Rows": 625000,
+                                  "Plan Width": 8,
+                                  "Plans": [
+                                    {
+                                      "Node Type": "Seq Scan",
+                                      "Parent Relationship": "Outer",
+                                      "Parallel Aware": true,
+                                      "Async Capable": false,
+                                      "Relation Name": "orders",
+                                      "Alias": "orders",
+                                      "Startup Cost": 0.0,
+                                      "Total Cost": 27812.5,
+                                      "Plan Rows": 625000,
+                                      "Plan Width": 8,
+                                      "Filter": "((o_comment)::text !~~ '%special%deposits%'::text)"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
