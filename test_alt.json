@@ -8,8 +8,8 @@
                     "Partial Mode": "Simple",
                     "Parallel Aware": false,
                     "Async Capable": false,
-                    "Startup Cost": 10001124282.41,
-                    "Total Cost": 10001343499.37,
+                    "Startup Cost": 20001124282.41,
+                    "Total Cost": 20001343499.37,
                     "Plan Rows": 6,
                     "Plan Width": 236,
                     "Group Key": [
@@ -22,8 +22,8 @@
                             "Parent Relationship": "Outer",
                             "Parallel Aware": false,
                             "Async Capable": false,
-                            "Startup Cost": 10001124282.41,
-                            "Total Cost": 10001138896.87,
+                            "Startup Cost": 20001124282.41,
+                            "Total Cost": 20001138896.87,
                             "Plan Rows": 5845781,
                             "Plan Width": 25,
                             "Sort Key": [

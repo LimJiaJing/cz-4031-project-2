@@ -76,30 +76,30 @@ def conditions_generator(operation_list,input_string):
     # options =["SET enable_bitmapscan TO off","SET enable_hashagg TO off","SET enable_hashjoin TO off"
     #           ,"SET enable_indexscan TO off","SET enable_indexonlyscan TO off","SET enable_material TO off","SET enable_mergejoin TO off"
     #           ,"SET enable_nestloop TO off","SET enable_seqscan TO off","SET enable_sort TO off","SET enable_tidscan TO off"]
-    modified_string = ""
+    modified_string = input_string
     for i in operation_list:
         #not sure about hash/aggregate
         if i == "Hash" or i == "Aggregate":
-            modified_string="SET enable_hashagg TO off;\n"+input_string
+            modified_string="SET enable_hashagg TO off;\n"+modified_string
         elif i == "Hash Join":
-            modified_string="SET enable_hashjoin TO off;\n"+input_string
+            modified_string="SET enable_hashjoin TO off;\n"+modified_string
         elif i == "Bitmap Heap Scan" or i == "Bitmap Index Scan":
-            modified_string="SET enable_bitmapscan TO off;\n"+input_string
+            modified_string="SET enable_bitmapscan TO off;\n"+modified_string
         elif i == "Seq Scan":
-            modified_string="SET enable_seqscan TO off;\n"+input_string
+            modified_string="SET enable_seqscan TO off;\n"+modified_string
         elif i == "Index Only Scan":
-            modified_string="SET enable_indexonlyscan TO off;\n"+input_string
+            modified_string="SET enable_indexonlyscan TO off;\n"+modified_string
         elif i == "Index Scan":
-            modified_string="SET enable_indexscan TO off;\n"+input_string
+            modified_string="SET enable_indexscan TO off;\n"+modified_string
         elif i == "Materialize":
-            modified_string="SET enable_material TO off;\n"+input_string
+            modified_string="SET enable_material TO off;\n"+modified_string
         elif i == "Sort":
-            modified_string="SET enable_sort TO off;\n"+input_string
+            modified_string="SET enable_sort TO off;\n"+modified_string
         elif i == "Nested Loop":
-            modified_string="SET enable_nestloop TO off;\n"+input_string
+            modified_string="SET enable_nestloop TO off;\n"+modified_string
         #not sure about gather merge
         elif i == "Gather Merge":
-            modified_string="SET enable_mergejoin TO off;\n"+input_string
+            modified_string="SET enable_mergejoin TO off;\n"+modified_string
     return modified_string
 
 def AQP_generator(database_conn,input_string):
