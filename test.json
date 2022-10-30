@@ -1,0 +1,86 @@
+[
+    [
+        [
+            {
+                "Plan": {
+                    "Node Type": "Aggregate",
+                    "Strategy": "Sorted",
+                    "Partial Mode": "Finalize",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 230004.83,
+                    "Total Cost": 230006.79,
+                    "Plan Rows": 6,
+                    "Plan Width": 236,
+                    "Group Key": [
+                        "l_returnflag",
+                        "l_linestatus"
+                    ],
+                    "Plans": [
+                        {
+                            "Node Type": "Gather Merge",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 230004.83,
+                            "Total Cost": 230006.23,
+                            "Plan Rows": 12,
+                            "Plan Width": 236,
+                            "Workers Planned": 2,
+                            "Plans": [
+                                {
+                                    "Node Type": "Sort",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Startup Cost": 229004.81,
+                                    "Total Cost": 229004.82,
+                                    "Plan Rows": 6,
+                                    "Plan Width": 236,
+                                    "Sort Key": [
+                                        "l_returnflag",
+                                        "l_linestatus"
+                                    ],
+                                    "Plans": [
+                                        {
+                                            "Node Type": "Aggregate",
+                                            "Strategy": "Hashed",
+                                            "Partial Mode": "Partial",
+                                            "Parent Relationship": "Outer",
+                                            "Parallel Aware": false,
+                                            "Async Capable": false,
+                                            "Startup Cost": 229004.6,
+                                            "Total Cost": 229004.73,
+                                            "Plan Rows": 6,
+                                            "Plan Width": 236,
+                                            "Group Key": [
+                                                "l_returnflag",
+                                                "l_linestatus"
+                                            ],
+                                            "Planned Partitions": 0,
+                                            "Plans": [
+                                                {
+                                                    "Node Type": "Seq Scan",
+                                                    "Parent Relationship": "Outer",
+                                                    "Parallel Aware": true,
+                                                    "Async Capable": false,
+                                                    "Relation Name": "lineitem",
+                                                    "Alias": "lineitem",
+                                                    "Startup Cost": 0.0,
+                                                    "Total Cost": 143753.63,
+                                                    "Plan Rows": 2435742,
+                                                    "Plan Width": 25,
+                                                    "Filter": "(l_shipdate <= '1998-08-03 00:00:00'::timestamp without time zone)"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    ]
+]

@@ -1,0 +1,54 @@
+[
+    [
+        [
+            {
+                "Plan": {
+                    "Node Type": "Aggregate",
+                    "Strategy": "Sorted",
+                    "Partial Mode": "Simple",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 10001124282.41,
+                    "Total Cost": 10001343499.37,
+                    "Plan Rows": 6,
+                    "Plan Width": 236,
+                    "Group Key": [
+                        "l_returnflag",
+                        "l_linestatus"
+                    ],
+                    "Plans": [
+                        {
+                            "Node Type": "Sort",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 10001124282.41,
+                            "Total Cost": 10001138896.87,
+                            "Plan Rows": 5845781,
+                            "Plan Width": 25,
+                            "Sort Key": [
+                                "l_returnflag",
+                                "l_linestatus"
+                            ],
+                            "Plans": [
+                                {
+                                    "Node Type": "Seq Scan",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Relation Name": "lineitem",
+                                    "Alias": "lineitem",
+                                    "Startup Cost": 10000000000.0,
+                                    "Total Cost": 10000187512.9,
+                                    "Plan Rows": 5845781,
+                                    "Plan Width": 25,
+                                    "Filter": "(l_shipdate <= '1998-08-03 00:00:00'::timestamp without time zone)"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    ]
+]
