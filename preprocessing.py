@@ -20,14 +20,10 @@ def connect():
     cur.execute("SELECT datname FROM pg_database;")
     # list all the databses in our account
     list_database = cur.fetchall()
-    print(list_database)
-    print("\n\n\n")
     #https://www.folkstalk.com/2022/09/postgresql-show-tables-with-code-examples.html
     #this one to fetch the tables we created
     cur.execute("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'")
     list_of_tables = list(map(lambda x: x[0], cur.fetchall()))
-    print(list_of_tables)
-    print("\n\n\n")
     ##fetch the columns of the tables
     table_cols = {}
     for i in list_of_tables:
@@ -44,18 +40,14 @@ def query_asker():
     modified_query= "Explain (format JSON) " + query
     return modified_query
 
-def QEP_Generator(database_conn,input_string,flag):
+def QEP_Generator(database_conn,input_string):
     cursor = database_conn.cursor()
     cursor.execute(input_string)
     data = cursor.fetchall()
     json_object = json.dumps(data, indent=4)
     # Writing to sample.json
-    if flag == 0:
-        with open("test.json", "w") as outfile:
-            outfile.write(json_object)
-    else:
-        with open("test_alt.json", "w") as outfile:
-            outfile.write(json_object)
+    with open("QEP.json", "w") as outfile:
+        outfile.write(json_object)
 
 def generate_operation_list(plan):
     plan_list = []
@@ -72,43 +64,88 @@ def generate_operation_list(plan):
     return tlist
 
 def conditions_generator(operation_list,input_string):
-    #keyword_list = ["Hash","Hash Join","Seq Scan","Sort","Aggregate","Index Only Scan","Nested Loop","Index Scan","Materialize","Bitmap Heap Scan","Bitmap Index Scan"]
-    # options =["SET enable_bitmapscan TO off","SET enable_hashagg TO off","SET enable_hashjoin TO off"
-    #           ,"SET enable_indexscan TO off","SET enable_indexonlyscan TO off","SET enable_material TO off","SET enable_mergejoin TO off"
-    #           ,"SET enable_nestloop TO off","SET enable_seqscan TO off","SET enable_sort TO off","SET enable_tidscan TO off"]
-    modified_string = input_string
+    #The following was not added as of yet
+    #enable_async_append (boolean)
+    # enable_incremental_sort (boolean) 
+    # enable_tidscan (boolean) 
+    # enable_parallel_append (boolean)
+    # enable_parallel_hash (boolean)
+    # enable_partition_pruning (boolean)
+    # enable_partitionwise_join (boolean)
+    # enable_partitionwise_aggregate (boolean)
+
+    list_of_AQP_Queries = []
     for i in operation_list:
+        #Gather not in because i dont know where to pu
         #not sure about hash/aggregate
-        if i == "Hash" or i == "Aggregate":
-            modified_string="SET enable_hashagg TO off;\n"+modified_string
-        elif i == "Hash Join":
-            modified_string="SET enable_hashjoin TO off;\n"+modified_string
+        # if i == "Hash" or i == "Aggregate":
+        #     modified_string="SET enable_hashagg TO off;\n"+input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #       list_of_AQP_Queries.append(modified_string)
+        if i == "Hash Join":
+            modified_string="SET enable_hashjoin TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
         elif i == "Bitmap Heap Scan" or i == "Bitmap Index Scan":
-            modified_string="SET enable_bitmapscan TO off;\n"+modified_string
-        elif i == "Seq Scan":
-            modified_string="SET enable_seqscan TO off;\n"+modified_string
+            modified_string="SET enable_bitmapscan TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
+        # elif i == "Seq Scan":
+        #     modified_string="SET enable_seqscan TO off;\n"+input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #       list_of_AQP_Queries.append(modified_string)
         elif i == "Index Only Scan":
-            modified_string="SET enable_indexonlyscan TO off;\n"+modified_string
+            modified_string="SET enable_indexonlyscan TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
         elif i == "Index Scan":
-            modified_string="SET enable_indexscan TO off;\n"+modified_string
-        elif i == "Materialize":
-            modified_string="SET enable_material TO off;\n"+modified_string
-        elif i == "Sort":
-            modified_string="SET enable_sort TO off;\n"+modified_string
+            modified_string="SET enable_indexscan TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
+        # elif i == "Materialize":
+        #     modified_string="SET enable_material TO off;\n"+input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #       list_of_AQP_Queries.append(modified_string)
+        # elif i == "Sort":
+        #     modified_string="SET enable_sort TO off;\n"+input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #       list_of_AQP_Queries.append(modified_string)
         elif i == "Nested Loop":
-            modified_string="SET enable_nestloop TO off;\n"+modified_string
+            modified_string="SET enable_nestloop TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
         #not sure about gather merge
+        elif i == "Merge Join":
+            modified_string="SET enable_mergejoin TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
         elif i == "Gather Merge":
-            modified_string="SET enable_mergejoin TO off;\n"+modified_string
-    return modified_string
+            modified_string = "SET enable_gathermerge TO off;\n"+input_string
+            if modified_string not in list_of_AQP_Queries:
+                list_of_AQP_Queries.append(modified_string)
+        # elif i == "Memoize":
+        #     modified_string = "SET enable_memoize TO off;\n"+input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #       list_of_AQP_Queries.append(modified_string)
+    return list_of_AQP_Queries
 
 def AQP_generator(database_conn,input_string):
-    with open("sample.json") as my_data_file:
+    with open("QEP.json") as my_data_file:
         my_data = json.load(my_data_file)
     operation_list = generate_operation_list(my_data[0][0][0]["Plan"])
-    modified_string = conditions_generator(operation_list,input_string)
-    print(modified_string)
-    QEP_Generator(database_conn,modified_string,1)
+    list_of_AQP_Queries = conditions_generator(operation_list,input_string)
+    print(list_of_AQP_Queries)
+    for i in range(len(list_of_AQP_Queries)):
+        cursor = database_conn.cursor()
+        cursor.execute(list_of_AQP_Queries[i])
+        data = cursor.fetchall()
+        json_object = json.dumps(data, indent=4)
+        # Writing to sample.json
+        with open("AQP" + "{}.json".format(i+1), "w") as outfile:
+            outfile.write(json_object)
+            print("AQP(s) is generated in AQP{}.json".format(i+1))
+
+
 
 if __name__ == "__main__" :
     # print("okay")
@@ -117,5 +154,6 @@ if __name__ == "__main__" :
     tables = start[1]
     # print(tables)
     query_string = query_asker()
-    QEP_Generator(conn,query_string,0)
+    QEP_Generator(conn,query_string)
+    print("QEP is generated in test.json")
     AQP_generator(conn,query_string)
