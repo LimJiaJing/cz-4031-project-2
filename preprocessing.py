@@ -48,7 +48,8 @@ def QEP_Generator(database_conn,input_string):
     # Writing to sample.json
     with open("QEP.json", "w") as outfile:
         outfile.write(json_object)
-
+    print("QEP is generated in QEP.json")
+    
 def generate_operation_list(plan):
     plan_list = []
     plan_list.append(plan)
@@ -75,6 +76,8 @@ def conditions_generator(operation_list,input_string):
     # enable_partitionwise_aggregate (boolean)
 
     list_of_AQP_Queries = []
+    list_of_disables = []
+    count = 1
     for i in operation_list:
         #Gather not in because i dont know where to pu
         #not sure about hash/aggregate
@@ -82,51 +85,67 @@ def conditions_generator(operation_list,input_string):
         #     modified_string="SET enable_hashagg TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
+        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         if i == "Hash Join":
             modified_string="SET enable_hashjoin TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         elif i == "Bitmap Heap Scan" or i == "Bitmap Index Scan":
             modified_string="SET enable_bitmapscan TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         # elif i == "Seq Scan":
         #     modified_string="SET enable_seqscan TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
+        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         elif i == "Index Only Scan":
             modified_string="SET enable_indexonlyscan TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         elif i == "Index Scan":
             modified_string="SET enable_indexscan TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         # elif i == "Materialize":
         #     modified_string="SET enable_material TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
+        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         # elif i == "Sort":
         #     modified_string="SET enable_sort TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
+        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         elif i == "Nested Loop":
             modified_string="SET enable_nestloop TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         #not sure about gather merge
         elif i == "Merge Join":
             modified_string="SET enable_mergejoin TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         elif i == "Gather Merge":
             modified_string = "SET enable_gathermerge TO off;\n"+input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
+                list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         # elif i == "Memoize":
         #     modified_string = "SET enable_memoize TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
+        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
+        count+=1
+    with open("AQPInfo.txt", "w") as my_data_file:
+        for i in range(len(list_of_disables)):
+            my_data_file.write(list_of_disables[i])
     return list_of_AQP_Queries
 
 def AQP_generator(database_conn,input_string):
@@ -134,7 +153,6 @@ def AQP_generator(database_conn,input_string):
         my_data = json.load(my_data_file)
     operation_list = generate_operation_list(my_data[0][0][0]["Plan"])
     list_of_AQP_Queries = conditions_generator(operation_list,input_string)
-    print(list_of_AQP_Queries)
     for i in range(len(list_of_AQP_Queries)):
         cursor = database_conn.cursor()
         cursor.execute(list_of_AQP_Queries[i])
@@ -155,5 +173,4 @@ if __name__ == "__main__" :
     # print(tables)
     query_string = query_asker()
     QEP_Generator(conn,query_string)
-    print("QEP is generated in test.json")
     AQP_generator(conn,query_string)
