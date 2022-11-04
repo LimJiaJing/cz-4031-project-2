@@ -1,1 +1,1 @@
-AQP2 has Gather Merge disabled
+AQP1 has Gather Merge disabled
