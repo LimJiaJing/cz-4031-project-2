@@ -30,7 +30,8 @@ def get_sql_to_level_mapping(query_list):
     i = 0
     while i < len(query_list):
         if re.search(r'\(SELECT', query_list[i]):
-            modify_key_for_subquery(i, query_list, sql_to_level_mapping)
+            new_cleaned_key = modify_key_for_subquery(i, query_list, sql_to_level_mapping)
+            query_list[i] = new_cleaned_key
 
         has_in_keyword = False
         line_to_skip = 1
@@ -62,7 +63,9 @@ def modify_key_for_subquery(i, query_list, sql_to_level_mapping):
     cleaned_key = remove_unwanted_keywords(query_list[i-1])
     v = sql_to_level_mapping[cleaned_key]
     del sql_to_level_mapping[cleaned_key]
-    sql_to_level_mapping[cleaned_key + " _"] = v
+    new_cleaned_key = cleaned_key + " _"
+    sql_to_level_mapping[new_cleaned_key] = v
+    return new_cleaned_key
 
 
 def modify_line_with_in_keyword(start, query_list):
