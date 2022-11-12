@@ -43,9 +43,14 @@ def get_sql_to_level_mapping(query_list):
                     i, query_list)
                 query_list[i] = new_line
                 line_to_skip = local_line_to_skip
+           
             cleaned_key = remove_unwanted_keywords(
                 query_list[i], has_in_keyword)
             sql_to_level_mapping[cleaned_key].append(i)
+            
+            reversed_cleaned_key = reverse_cleaned_key(cleaned_key)
+            if reverse_cleaned_key(cleaned_key):
+                 sql_to_level_mapping[reversed_cleaned_key] = sql_to_level_mapping[cleaned_key]
         else:
             is_unwanted_line = True
         i += line_to_skip
@@ -100,19 +105,56 @@ def modify_line_with_in_keyword(start, query_list):
 
 
 def remove_unwanted_keywords(key, has_in_keyword=False):
-    if re.search(r'^(AND|OR|FROM|WHERE|GROUP BY) (.*)', key):
-        key = re.sub(r'^(AND|OR|FROM|WHERE|GROUP BY) (.*)', r'\2', key, 1)
+    regex = re.compile(r'^(AND|OR|FROM|WHERE|GROUP BY) (.*)')
+    if re.match(regex, key):
+        key = re.sub(regex, r'\2', key, 1)
 
-    if not has_in_keyword and re.search(r"\(|\)|,|;", key):
-        key = re.sub(r"\(|\)|,|;", "", key).strip()
+    regex = re.compile(r'HAVING sum(.*) (>) (.*)')
+    if re.match(regex, key):
+        key = re.sub(regex, r"\1 \2 '\3'", key)
 
-    if re.search(r'^customer|lineitem|nation|orders|part|partsupp|region|supplier', key):
-        if len(key.split(" ")) == 2:
-            key = key.split(" ")[0]
+    regex = re.compile(r"\(|\)|,|;")
+    if not has_in_keyword and re.search(regex, key):
+        key = re.sub(regex, "", key).strip()
 
-    key = re.sub(r'(.*\.)(.*) (=|>|<|>=|<=|<>) (.*\.)(.*)', r'\2 \3 \5', key)
-    key = re.sub(r'(.*\.)?(.*) (=|>|<|>=|<=|<>) (.*\.)?(.*)(AS.*)',
-                 r'\2 \3 \5', key)
-    key = re.sub(r'(.*JOIN.*ON.*) (.*) = (.*)', r'\2 = \3', key)
+    regex = re.compile(r'([a-z].*\.)?([a-z].*) (=|>|<|>=|<=|<>) ([a-z].*\.)?([a-z].*)')
+    if re.match(regex, key):
+        key = re.sub(regex, r'\2 \3 \5', key)
+
+    regex = r'(.*\.)?(.*) (=|>|<|>=|<=|<>) (.*\.)?(.*)(AS.*)'
+    if re.match(regex, key):
+        key = re.sub(regex, r'\2 \3 \5', key)
+    
+    regex = r'(.*JOIN.*ON.*) (.*) = (.*)'
+    if re.match(regex, key):
+        key = re.sub(regex, r'\2 = \3', key)
+    
+    regex = re.compile(r'(.*) (>|>=|<|<=) date (.*)')
+    if re.match(regex, key):
+        key = re.sub(regex, r'\1 \2 \3', key)
+    
+    regex = re.compile(r'(.*) (>|<|>=|<=) (.*)')
+    if re.match(regex, key):
+        try:
+            result = str(eval(re.match(regex, key).groups()[2]))
+            if re.search(r'+|-|*|/', result):
+                key = re.sub(regex, r'\1 \2 ' + result, key)
+        except:
+            pass
+
+    regex = re.compile(r'(.*) BETWEEN (.*) AND (.*)')
+    if re.match(regex, key):
+        try:
+            result = str(eval(re.match(regex, key).groups()[2]))
+            key = re.sub(regex, r'\1 <= ' + result, key)
+        except:
+            pass
 
     return key.strip()
+
+
+def reverse_cleaned_key(key):
+    if re.match(r'(.*) (=|>|<|>=|<=|<>) (.*)', key):
+        key = re.sub(r'(.*) (=) (.*)', r'\3 \2 \1', key)
+        return key
+    return None
