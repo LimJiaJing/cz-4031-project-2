@@ -1,0 +1,2264 @@
+
+clean_q10_QEP.json
+{
+    "customer": [
+        [
+            "Index Scan",
+            "customer_pkey",
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "l_returnflag = 'R'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "o_orderdate >= '1993-02-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "o_orderdate < '1993-05-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "n_nationkey = c_nationkey": [
+        [
+            "Index Scan",
+            "nation_pkey",
+            "nation",
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "nation": [
+        [
+            "Index Scan",
+            "nation_pkey",
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q11_QEP.json
+{
+    "partsupp": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ],
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ],
+    "n_name = 'EGYPT'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ],
+    "nation": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ],
+    "s_nationkey = n_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ],
+    "ps_suppkey = s_suppkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ],
+    "ps_availqty > $0": [
+        [
+            "Aggregate",
+            None,
+            None,
+            None,
+            None,
+            57925.82
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q12_QEP.json
+{
+    "orders": [
+        [
+            "Index Scan",
+            "orders_pkey",
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ],
+    "{FOB,AIR}": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ],
+    "l_commitdate < l_receiptdate": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ],
+    "l_shipdate < l_commitdate": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ],
+    "l_receiptdate >= '1997-01-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ],
+    "l_receiptdate < '1998-01-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            315689.4
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q13_QEP.json
+{
+    "o_comment not like '%special%deposits%'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            148327.93
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            148327.93
+        ]
+    ],
+    "o_custkey = c_custkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            148327.93
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q14_QEP.json
+{
+    "l_shipdate >= '1997-06-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            216215.11
+        ]
+    ],
+    "l_shipdate < '1997-07-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            216215.11
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            216215.11
+        ]
+    ],
+    "part": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            216215.11
+        ]
+    ],
+    "l_partkey = p_partkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            216215.11
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q16_QEP.json
+{
+    "s_comment like '%Customer%Complaints%'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "NOT hashed _": [
+        [
+            "Index Only Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "p_brand <> 'Brand#45'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "p_type not like 'SMALL ANODIZED%'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "{47,15,37,30,46,16,18,6}": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "part": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ],
+    "ps_partkey = p_partkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            41450.79
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q18_QEP.json
+{
+    "customer": [
+        [
+            "Index Scan",
+            "customer_pkey",
+            None,
+            None,
+            None,
+            755498.82
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            755498.82
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            755498.82
+        ]
+    ],
+    "l_quantity > 312": [
+        [
+            "Aggregate",
+            None,
+            None,
+            None,
+            None,
+            755498.82
+        ]
+    ],
+    "o_orderkey = l_orderkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            755498.82
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            755498.82
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q19_QEP.json
+{
+    "{AIR,\"AIR REG\"}": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_shipinstruct = 'DELIVER IN PERSON'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_quantity >= 3": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_quantity <= 13": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_quantity >= 12": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_quantity <= 22": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_quantity >= 21": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_quantity <= 31": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "p_size >= 1": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "p_brand = 'Brand#52'": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "{\"SM CASE\",\"SM BOX\",\"SM PACK\",\"SM PKG\"}": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "p_size <= 5": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "p_brand = 'Brand#43'": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "{\"MED BAG\",\"MED BOX\",\"MED PKG\",\"MED PACK\"}": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "p_size <= 10": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "{\"LG CASE\",\"LG BOX\",\"LG PACK\",\"LG PKG\"}": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "p_size <= 15": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_partkey = p_partkey",
+            "Hash Join",
+            306516.56
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "part": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ],
+    "l_partkey = p_partkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            306516.56
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q1_QEP.json
+{
+    "l_shipdate <= '1998-08-03 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            392338.94
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            392338.94
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q20_QEP.json
+{
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "p_name like 'drab%'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "part": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "l_partkey = ps_partkey": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "l_suppkey = ps_suppkey": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "l_shipdate >= '1996-01-01'": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            "lineitem",
+            "l_partkey = ps_partkey AND l_suppkey = ps_suppkey",
+            "Index Scan",
+            616872.03
+        ]
+    ],
+    "l_shipdate < '1997-01-01 00:00:00'": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            "lineitem",
+            "l_partkey = ps_partkey AND l_suppkey = ps_suppkey",
+            "Index Scan",
+            616872.03
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "ps_partkey = p_partkey": [
+        [
+            "Index Join",
+            "partsupp_pkey",
+            "partsupp",
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "ps_availqty > _": [
+        [
+            "Index Join",
+            "partsupp_pkey",
+            "partsupp",
+            "ps_partkey = p_partkey",
+            "Index Join",
+            616872.03
+        ]
+    ],
+    "partsupp": [
+        [
+            "Index Scan",
+            "partsupp_pkey",
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "s_suppkey = ps_suppkey": [
+        [
+            "Nested Loop",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "n_name = 'KENYA'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "nation": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ],
+    "s_nationkey = n_nationkey": [
+        [
+            "Nested Loop",
+            None,
+            None,
+            None,
+            None,
+            616872.03
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q21_QEP.json
+{
+    "l_receiptdate > l_commitdate": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = l_orderkey",
+            "Index Join",
+            203146.4
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "lineitem l1": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "n_name = 'PERU'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "nation": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "s_nationkey = n_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "l_suppkey = s_suppkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "l_orderkey = l_orderkey": [
+        [
+            "Index Only Scan",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            203146.4
+        ],
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "l_suppkey <> l_suppkey": [
+        [
+            "Index Only Scan",
+            None,
+            None,
+            "l_orderkey = l_orderkey",
+            "Index Only Scan",
+            203146.4
+        ],
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = l_orderkey",
+            "Index Join",
+            203146.4
+        ]
+    ],
+    "lineitem l3": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "o_orderkey = l_orderkey": [
+        [
+            "Index Join",
+            "orders_pkey",
+            "orders",
+            None,
+            None,
+            203146.4
+        ]
+    ],
+    "o_orderstatus = 'F'": [
+        [
+            "Index Join",
+            "orders_pkey",
+            "orders",
+            "o_orderkey = l_orderkey",
+            "Index Join",
+            203146.4
+        ]
+    ],
+    "orders": [
+        [
+            "Index Scan",
+            "orders_pkey",
+            None,
+            None,
+            None,
+            203146.4
+        ]
+    ]
+}
+total number of duplicates = 2
+duplicates:
+l_orderkey = l_orderkey
+l_suppkey <> l_suppkey
+================================================================================
+clean_q22_QEP.json
+{
+    "c_acctbal > 0.00": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            80661.93
+        ]
+    ],
+    "{24,32,17,18,12,14,22}": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            80661.93
+        ]
+    ],
+    "customer": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            80661.93
+        ]
+    ],
+    "c_acctbal > $0": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            80661.93
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            80661.93
+        ]
+    ],
+    "c_custkey = o_custkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            80661.93
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q2_QEP.json
+{
+    "p_type like '%STEEL'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "p_size = 48": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "part": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "ps_partkey = p_partkey": [
+        [
+            "Index Join",
+            "partsupp_pkey",
+            "partsupp",
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "partsupp": [
+        [
+            "Index Scan",
+            "partsupp_pkey",
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "s_suppkey = ps_suppkey": [
+        [
+            "Index Join",
+            "supplier_pkey",
+            "supplier",
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "supplier": [
+        [
+            "Index Scan",
+            "supplier_pkey",
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "n_nationkey = s_nationkey": [
+        [
+            "Index Join",
+            "nation_pkey",
+            "nation",
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "nation": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ],
+        [
+            "Index Scan",
+            "nation_pkey",
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "r_regionkey = n_regionkey": [
+        [
+            "Index Scan",
+            "region_pkey",
+            "region",
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "r_name = 'EUROPE'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ],
+        [
+            "Index Scan",
+            "region_pkey",
+            "region",
+            "r_regionkey = n_regionkey",
+            "Index Scan",
+            7492.14
+        ]
+    ],
+    "region": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ],
+        [
+            "Index Scan",
+            "region_pkey",
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "_ = ps_supplycost": [
+        [
+            "Index Join",
+            "partsupp_pkey",
+            "partsupp",
+            "ps_partkey = p_partkey",
+            "Index Join",
+            7492.14
+        ]
+    ],
+    "s_nationkey = n_nationkey": [
+        [
+            "Nested Loop",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ],
+    "n_regionkey = r_regionkey": [
+        [
+            "Nested Loop",
+            None,
+            None,
+            None,
+            None,
+            7492.14
+        ]
+    ]
+}
+total number of duplicates = 3
+duplicates:
+nation
+r_name = 'EUROPE'
+region
+================================================================================
+clean_q3_QEP.json
+{
+    "o_orderdate < '1995-03-23'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            311255.44
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            311255.44
+        ]
+    ],
+    "c_mktsegment = 'MACHINERY'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            311255.44
+        ]
+    ],
+    "customer": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            311255.44
+        ]
+    ],
+    "o_custkey = c_custkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            311255.44
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            311255.44
+        ]
+    ],
+    "l_shipdate > '1995-03-23'": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = o_orderkey",
+            "Index Join",
+            311255.44
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            311255.44
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q4_QEP.json
+{
+    "o_orderdate >= '1996-07-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            166816.52
+        ]
+    ],
+    "o_orderdate < '1996-10-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            166816.52
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            166816.52
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            166816.52
+        ]
+    ],
+    "l_commitdate < l_receiptdate": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = o_orderkey",
+            "Index Join",
+            166816.52
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            166816.52
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q5_QEP.json
+{
+    "o_orderdate >= '1996-01-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "o_orderdate < '1997-01-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "customer": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "nation": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "r_name = 'EUROPE'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "region": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "n_regionkey = r_regionkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "c_nationkey = n_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "o_custkey = c_custkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "l_suppkey = s_suppkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ],
+    "c_nationkey = s_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            53891.66
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q6_QEP.json
+{
+    "l_shipdate >= '1996-01-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            248115.18
+        ]
+    ],
+    "l_shipdate < '1997-01-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            248115.18
+        ]
+    ],
+    "l_discount >= 0.01": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            248115.18
+        ]
+    ],
+    "l_discount <= 0.03": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            248115.18
+        ]
+    ],
+    "l_quantity < 24": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            248115.18
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            248115.18
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q7_QEP.json
+{
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "customer": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "n_name = 'BRAZIL'": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_suppkey = s_suppkey",
+            "Hash Join",
+            67614.45
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "n_name = 'CANADA'": [
+        [
+            "Hash Join",
+            None,
+            None,
+            "l_suppkey = s_suppkey",
+            "Hash Join",
+            67614.45
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "nation n2": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "c_nationkey = n_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "o_custkey = c_custkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "l_shipdate >= '1995-01-01'": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = o_orderkey",
+            "Index Join",
+            67614.45
+        ]
+    ],
+    "l_shipdate <= '1996-12-31'": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = o_orderkey",
+            "Index Join",
+            67614.45
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "nation n1": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "s_nationkey = n_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "l_suppkey = s_suppkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            67614.45
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q8_QEP.json
+{
+    "o_orderdate >= '1995-01-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "o_orderdate <= '1996-12-31'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "customer": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "nation n1": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "r_name = 'AMERICA'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "region": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "n_regionkey = r_regionkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "c_nationkey = n_nationkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "o_custkey = c_custkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "p_partkey = l_partkey": [
+        [
+            "Index Join",
+            "part_pkey",
+            "part",
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "p_type = 'LARGE ANODIZED COPPER'": [
+        [
+            "Index Join",
+            "part_pkey",
+            "part",
+            "p_partkey = l_partkey",
+            "Index Join",
+            60251.49
+        ]
+    ],
+    "part": [
+        [
+            "Index Scan",
+            "part_pkey",
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "s_suppkey = l_suppkey": [
+        [
+            "Index Join",
+            "supplier_pkey",
+            "supplier",
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "supplier": [
+        [
+            "Index Scan",
+            "supplier_pkey",
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "n_nationkey = s_nationkey": [
+        [
+            "Index Join",
+            "nation_pkey",
+            "nation",
+            None,
+            None,
+            60251.49
+        ]
+    ],
+    "nation n2": [
+        [
+            "Index Scan",
+            "nation_pkey",
+            None,
+            None,
+            None,
+            60251.49
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
+clean_q9_QEP.json
+{
+    "p_name like '%maroon%'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "part": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "l_partkey = p_partkey": [
+        [
+            "Index Join",
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "ps_partkey = l_partkey": [
+        [
+            "Index Join",
+            "partsupp_pkey",
+            "partsupp",
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "ps_suppkey = l_suppkey": [
+        [
+            "Index Join",
+            "partsupp_pkey",
+            "partsupp",
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "partsupp": [
+        [
+            "Index Scan",
+            "partsupp_pkey",
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "supplier": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "l_suppkey = s_suppkey": [
+        [
+            "Nested Loop",
+            None,
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "o_orderkey = l_orderkey": [
+        [
+            "Index Join",
+            "orders_pkey",
+            "orders",
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "orders": [
+        [
+            "Index Scan",
+            "orders_pkey",
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "nation": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ],
+    "s_nationkey = n_nationkey": [
+        [
+            "Nested Loop",
+            None,
+            None,
+            None,
+            None,
+            144670.24
+        ]
+    ]
+}
+total number of duplicates = 0
+================================================================================
