@@ -6,97 +6,167 @@ qep_summary = {
     "orders": [
         [
             "Seq Scan",
-            67614.45,
-            5,
-            "Hash Join"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "customer": [
         [
             "Seq Scan",
-            67614.45,
-            7,
-            "Hash Join"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "n_name = 'BRAZIL'": [
         [
             "Hash Join",
-            67614.45,
-            2,
-            "Sort"
+            None,
+            None,
+            "l_suppkey = s_suppkey",
+            "Hash Cond",
+            67614.45
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "n_name = 'CANADA'": [
         [
             "Hash Join",
-            67614.45,
-            2,
-            "Sort"
+            None,
+            None,
+            "l_suppkey = s_suppkey",
+            "Hash Cond",
+            67614.45
+        ],
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "nation n2": [
         [
             "Seq Scan",
-            67614.45,
-            8,
-            "Hash"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "c_nationkey = n_nationkey": [
         [
             "Hash Join",
-            67614.45,
-            6,
-            "Hash"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "o_custkey = c_custkey": [
         [
             "Hash Join",
-            67614.45,
-            4,
-            "Nested Loop"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "l_orderkey = o_orderkey": [
         [
             "Index Join",
-            67614.45,
-            4,
-            "Nested Loop"
+            "lineitem_pkey",
+            "lineitem",
+            None,
+            None,
+            67614.45
+        ]
+    ],
+    "l_shipdate >= '1995-01-01'": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = o_orderkey",
+            "Index Cond",
+            67614.45
+        ]
+    ],
+    "l_shipdate <= '1996-12-31'": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            "lineitem",
+            "l_orderkey = o_orderkey",
+            "Index Cond",
+            67614.45
+        ]
+    ],
+    "lineitem": [
+        [
+            "Index Scan",
+            "lineitem_pkey",
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "supplier": [
         [
             "Seq Scan",
-            67614.45,
-            5,
-            "Hash Join"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "nation n1": [
         [
             "Seq Scan",
-            67614.45,
-            6,
-            "Hash"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "s_nationkey = n_nationkey": [
         [
             "Hash Join",
-            67614.45,
-            4,
-            "Hash"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ],
     "l_suppkey = s_suppkey": [
         [
             "Hash Join",
-            67614.45,
-            2,
-            "Sort"
+            None,
+            None,
+            None,
+            None,
+            67614.45
         ]
     ]
 }
@@ -112,7 +182,6 @@ def longest_common_substring(candidates, string, threshold):
     chosen = None
     common_substring = None
     for e, e_refined in candidates:
-        print(e_refined, string)
         match = SequenceMatcher(None, e_refined, string).find_longest_match()
         if match.size == longest_match_size:
             print(string)
@@ -128,7 +197,14 @@ def longest_common_substring(candidates, string, threshold):
 
 def add_to_res(qep_summary, sql_summary, sql_key, qep_key):
     if len(qep_summary[qep_key]) > 1:
-        print(f"There are duplicates, {qep_key}")
+        if "Seq Scan" in set([e[0] for e in qep_summary[qep_key]]):
+            for e in qep_summary[qep_key]:
+                if e[0] == "Seq Scan":
+                    res[(sql_key, tuple(sql_summary[sql_key]))] = e
+                    break
+        else:
+            print("Not resolved")
+
     else:
         res[(sql_key, tuple(sql_summary[sql_key]))] = qep_summary[qep_key][0]
 
@@ -138,7 +214,6 @@ if __name__ == "__main__":
     res = {}
     missing_keys = []
     qep_list = list(qep_summary)
-    print(qep_list)
     for key in sql_summary.keys():
         if key in qep_list:
             add_to_res(qep_summary, sql_summary, key, key)
