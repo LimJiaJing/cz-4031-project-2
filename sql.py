@@ -115,4 +115,4 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
                  r'\2 \3 \5', key)
     key = re.sub(r'(.*JOIN.*ON.*) (.*) = (.*)', r'\2 = \3', key)
 
-    return key
+    return key.strip()
