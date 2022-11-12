@@ -48,10 +48,23 @@ def get_sql_to_level_mapping(query_list):
             cleaned_key = remove_unwanted_keywords(
                 query_list[i], has_in_keyword)
             sql_to_level_mapping[cleaned_key].append(i)
-            
-            reversed_cleaned_key = reverse_cleaned_key(cleaned_key)
-            if reverse_cleaned_key(cleaned_key):
-                 sql_to_level_mapping[reversed_cleaned_key] = sql_to_level_mapping[cleaned_key]
+
+            regex = r'(.*) BETWEEN (.*) AND (.*)'
+            if re.match(regex, cleaned_key):
+                try:
+                    result1 = str(eval(re.match(regex, cleaned_key).groups()[1]))
+                    result2 = str(eval(re.match(regex, cleaned_key).groups()[2]))
+                    key1 = re.sub(regex, r'\1 >= ' + result1, cleaned_key)
+                    key2 = re.sub(regex, r'\1 <= ' + result2, cleaned_key)
+                    sql_to_level_mapping[key1].append(i)
+                    sql_to_level_mapping[key2].append(i)
+                    del sql_to_level_mapping[cleaned_key]
+                except:
+                    pass
+
+            if re.match(r'(.*) (=|>|<|>=|<=|<>) (.*)', cleaned_key):
+                reversed_cleaned_key = re.sub(r'(.*) (=) (.*)', r'\3 \2 \1', cleaned_key)
+                sql_to_level_mapping[reversed_cleaned_key] = sql_to_level_mapping[cleaned_key]
         else:
             is_unwanted_line = True
         i += line_to_skip
@@ -132,10 +145,6 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
     if re.match(regex, key):
         key = re.sub(regex, r'\2 = \3', key)
     
-    regex = re.compile(r'(.*) (>|>=|<|<=) date (.*)')
-    if re.match(regex, key):
-        key = re.sub(regex, r'\1 \2 \3', key)
-    
     regex = re.compile(r'(.*) (>|<|>=|<=) (.*)')
     if re.match(regex, key):
         try:
@@ -145,19 +154,4 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
         except:
             pass
 
-    regex = re.compile(r'(.*) BETWEEN (.*) AND (.*)')
-    if re.match(regex, key):
-        try:
-            result = str(eval(re.match(regex, key).groups()[2]))
-            key = re.sub(regex, r'\1 <= ' + result, key)
-        except:
-            pass
-
     return key.strip()
-
-
-def reverse_cleaned_key(key):
-    if re.match(r'(.*) (=|>|<|>=|<=|<>) (.*)', key):
-        key = re.sub(r'(.*) (=) (.*)', r'\3 \2 \1', key)
-        return key
-    return None
