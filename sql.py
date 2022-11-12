@@ -14,8 +14,9 @@ def parse_sql(raw):
         line: [index_0, index_1, ..., index_n]
     }
     '''
-    sql_to_level_mapping = get_sql_to_level_mapping(query_list)
-    print_sql_to_level_mapping(sql_to_level_mapping)
+    # sql_to_level_mapping = get_sql_to_level_mapping(query_list)
+    # print_sql_to_level_mapping(sql_to_level_mapping)
+    return get_sql_to_level_mapping(query_list)
 
 
 def print_sql_to_level_mapping(sql_to_level_mapping):
