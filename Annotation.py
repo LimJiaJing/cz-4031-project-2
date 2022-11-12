@@ -115,9 +115,9 @@ if __name__ == "__main__":
     conn = start[0]
     tables = start[1]
     # print(tables)
-    query_string = preprossessing.query_asker()
-    preprossessing.QEP_Generator(conn, query_string)
-    preprossessing.AQP_generator(conn, query_string)
+    query_string = preprocessing.query_asker()
+    preprocessing.QEP_Generator(conn, query_string)
+    preprocessing.AQP_generator(conn, query_string)
     print("?")
     test = read_json("QEP.json")
     test1 = read_json("AQP1.json")

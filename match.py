@@ -3,6 +3,56 @@ from difflib import SequenceMatcher
 import re
 
 qep_summary = {
+    "customer": [
+        [
+            "Index Scan",
+            "customer_pkey",
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "l_returnflag = 'R'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "o_orderdate >= '1993-02-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "o_orderdate < '1993-05-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
     "orders": [
         [
             "Seq Scan",
@@ -10,167 +60,41 @@ qep_summary = {
             None,
             None,
             None,
-            67614.45
-        ]
-    ],
-    "customer": [
-        [
-            "Seq Scan",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "n_name = 'BRAZIL'": [
-        [
-            "Hash Join",
-            None,
-            None,
-            "l_suppkey = s_suppkey",
-            "Hash Join",
-            67614.45
-        ],
-        [
-            "Seq Scan",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "n_name = 'CANADA'": [
-        [
-            "Hash Join",
-            None,
-            None,
-            "l_suppkey = s_suppkey",
-            "Hash Join",
-            67614.45
-        ],
-        [
-            "Seq Scan",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "nation n2": [
-        [
-            "Seq Scan",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "c_nationkey = n_nationkey": [
-        [
-            "Hash Join",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "o_custkey = c_custkey": [
-        [
-            "Hash Join",
-            None,
-            None,
-            None,
-            None,
-            67614.45
+            253432.21
         ]
     ],
     "l_orderkey = o_orderkey": [
         [
-            "Index Join",
-            "lineitem_pkey",
-            "lineitem",
+            "Hash Join",
             None,
             None,
-            67614.45
+            None,
+            None,
+            253432.21
         ]
     ],
-    "l_shipdate >= '1995-01-01'": [
-        [
-            "Index Join",
-            "lineitem_pkey",
-            "lineitem",
-            "l_orderkey = o_orderkey",
-            "Index Join",
-            67614.45
-        ]
-    ],
-    "l_shipdate <= '1996-12-31'": [
-        [
-            "Index Join",
-            "lineitem_pkey",
-            "lineitem",
-            "l_orderkey = o_orderkey",
-            "Index Join",
-            67614.45
-        ]
-    ],
-    "lineitem": [
+    "n_nationkey = c_nationkey": [
         [
             "Index Scan",
-            "lineitem_pkey",
+            "nation_pkey",
+            "nation",
             None,
             None,
-            None,
-            67614.45
+            253432.21
         ]
     ],
-    "supplier": [
+    "nation": [
         [
-            "Seq Scan",
+            "Index Scan",
+            "nation_pkey",
             None,
             None,
             None,
-            None,
-            67614.45
-        ]
-    ],
-    "nation n1": [
-        [
-            "Seq Scan",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "s_nationkey = n_nationkey": [
-        [
-            "Hash Join",
-            None,
-            None,
-            None,
-            None,
-            67614.45
-        ]
-    ],
-    "l_suppkey = s_suppkey": [
-        [
-            "Hash Join",
-            None,
-            None,
-            None,
-            None,
-            67614.45
+            253432.21
         ]
     ]
 }
-f = open("Queries&Json\\q7.sql", "r")
+f = open("Queries&Json\\q10.sql", "r")
 sql = f.read()
 f.close()
 
