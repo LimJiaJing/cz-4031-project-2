@@ -6,26 +6,57 @@
                     "Node Type": "Limit",
                     "Parallel Aware": false,
                     "Async Capable": false,
-                    "Startup Cost": 6742.23,
-                    "Total Cost": 6742.24,
+                    "Startup Cost": 7492.13,
+                    "Total Cost": 7492.14,
                     "Plan Rows": 1,
                     "Plan Width": 256,
+                    "Actual Startup Time": 127.181,
+                    "Actual Total Time": 127.19,
+                    "Actual Rows": 0,
+                    "Actual Loops": 1,
+                    "Output": [
+                        "supplier.s_acctbal",
+                        "supplier.s_name",
+                        "nation.n_name",
+                        "part.p_partkey",
+                        "part.p_mfgr",
+                        "supplier.s_address",
+                        "supplier.s_phone",
+                        "supplier.s_comment"
+                    ],
                     "Plans": [
                         {
                             "Node Type": "Sort",
                             "Parent Relationship": "Outer",
                             "Parallel Aware": false,
                             "Async Capable": false,
-                            "Startup Cost": 6742.23,
-                            "Total Cost": 6742.24,
+                            "Startup Cost": 7492.13,
+                            "Total Cost": 7492.14,
                             "Plan Rows": 1,
                             "Plan Width": 256,
+                            "Actual Startup Time": 127.179,
+                            "Actual Total Time": 127.188,
+                            "Actual Rows": 0,
+                            "Actual Loops": 1,
+                            "Output": [
+                                "supplier.s_acctbal",
+                                "supplier.s_name",
+                                "nation.n_name",
+                                "part.p_partkey",
+                                "part.p_mfgr",
+                                "supplier.s_address",
+                                "supplier.s_phone",
+                                "supplier.s_comment"
+                            ],
                             "Sort Key": [
                                 "supplier.s_acctbal DESC",
                                 "nation.n_name",
                                 "supplier.s_name",
                                 "part.p_partkey"
                             ],
+                            "Sort Method": "quicksort",
+                            "Sort Space Used": 25,
+                            "Sort Space Type": "Memory",
                             "Plans": [
                                 {
                                     "Node Type": "Nested Loop",
@@ -33,12 +64,27 @@
                                     "Parallel Aware": false,
                                     "Async Capable": false,
                                     "Join Type": "Inner",
-                                    "Startup Cost": 1000.71,
-                                    "Total Cost": 6742.22,
+                                    "Startup Cost": 0.71,
+                                    "Total Cost": 7492.12,
                                     "Plan Rows": 1,
                                     "Plan Width": 256,
+                                    "Actual Startup Time": 127.089,
+                                    "Actual Total Time": 127.097,
+                                    "Actual Rows": 0,
+                                    "Actual Loops": 1,
+                                    "Output": [
+                                        "supplier.s_acctbal",
+                                        "supplier.s_name",
+                                        "nation.n_name",
+                                        "part.p_partkey",
+                                        "part.p_mfgr",
+                                        "supplier.s_address",
+                                        "supplier.s_phone",
+                                        "supplier.s_comment"
+                                    ],
                                     "Inner Unique": true,
                                     "Join Filter": "(nation.n_regionkey = region.r_regionkey)",
+                                    "Rows Removed by Join Filter": 0,
                                     "Plans": [
                                         {
                                             "Node Type": "Nested Loop",
@@ -46,12 +92,28 @@
                                             "Parallel Aware": false,
                                             "Async Capable": false,
                                             "Join Type": "Inner",
-                                            "Startup Cost": 1000.71,
-                                            "Total Cost": 6730.09,
+                                            "Startup Cost": 0.71,
+                                            "Total Cost": 7479.99,
                                             "Plan Rows": 1,
                                             "Plan Width": 260,
+                                            "Actual Startup Time": 127.088,
+                                            "Actual Total Time": 127.096,
+                                            "Actual Rows": 0,
+                                            "Actual Loops": 1,
+                                            "Output": [
+                                                "part.p_partkey",
+                                                "part.p_mfgr",
+                                                "supplier.s_acctbal",
+                                                "supplier.s_name",
+                                                "supplier.s_address",
+                                                "supplier.s_phone",
+                                                "supplier.s_comment",
+                                                "nation.n_name",
+                                                "nation.n_regionkey"
+                                            ],
                                             "Inner Unique": true,
                                             "Join Filter": "(supplier.s_nationkey = nation.n_nationkey)",
+                                            "Rows Removed by Join Filter": 0,
                                             "Plans": [
                                                 {
                                                     "Node Type": "Nested Loop",
@@ -59,10 +121,24 @@
                                                     "Parallel Aware": false,
                                                     "Async Capable": false,
                                                     "Join Type": "Inner",
-                                                    "Startup Cost": 1000.71,
-                                                    "Total Cost": 6716.26,
+                                                    "Startup Cost": 0.71,
+                                                    "Total Cost": 7466.16,
                                                     "Plan Rows": 1,
                                                     "Plan Width": 156,
+                                                    "Actual Startup Time": 127.088,
+                                                    "Actual Total Time": 127.094,
+                                                    "Actual Rows": 0,
+                                                    "Actual Loops": 1,
+                                                    "Output": [
+                                                        "part.p_partkey",
+                                                        "part.p_mfgr",
+                                                        "supplier.s_acctbal",
+                                                        "supplier.s_name",
+                                                        "supplier.s_address",
+                                                        "supplier.s_phone",
+                                                        "supplier.s_comment",
+                                                        "supplier.s_nationkey"
+                                                    ],
                                                     "Inner Unique": true,
                                                     "Plans": [
                                                         {
@@ -71,38 +147,50 @@
                                                             "Parallel Aware": false,
                                                             "Async Capable": false,
                                                             "Join Type": "Inner",
-                                                            "Startup Cost": 1000.42,
-                                                            "Total Cost": 6715.96,
+                                                            "Startup Cost": 0.42,
+                                                            "Total Cost": 7465.86,
                                                             "Plan Rows": 1,
                                                             "Plan Width": 34,
+                                                            "Actual Startup Time": 127.087,
+                                                            "Actual Total Time": 127.093,
+                                                            "Actual Rows": 0,
+                                                            "Actual Loops": 1,
+                                                            "Output": [
+                                                                "part.p_partkey",
+                                                                "part.p_mfgr",
+                                                                "partsupp.ps_suppkey"
+                                                            ],
                                                             "Inner Unique": false,
                                                             "Plans": [
                                                                 {
-                                                                    "Node Type": "Gather",
+                                                                    "Node Type": "Seq Scan",
                                                                     "Parent Relationship": "Outer",
                                                                     "Parallel Aware": false,
                                                                     "Async Capable": false,
-                                                                    "Startup Cost": 1000.0,
-                                                                    "Total Cost": 6504.1,
+                                                                    "Relation Name": "part",
+                                                                    "Schema": "public",
+                                                                    "Alias": "part",
+                                                                    "Startup Cost": 0.0,
+                                                                    "Total Cost": 7254.0,
                                                                     "Plan Rows": 1,
                                                                     "Plan Width": 30,
-                                                                    "Workers Planned": 2,
-                                                                    "Single Copy": false,
-                                                                    "Plans": [
-                                                                        {
-                                                                            "Node Type": "Seq Scan",
-                                                                            "Parent Relationship": "Outer",
-                                                                            "Parallel Aware": true,
-                                                                            "Async Capable": false,
-                                                                            "Relation Name": "part",
-                                                                            "Alias": "part",
-                                                                            "Startup Cost": 0.0,
-                                                                            "Total Cost": 5504.0,
-                                                                            "Plan Rows": 1,
-                                                                            "Plan Width": 30,
-                                                                            "Filter": "(((p_type)::text ~~ '%STEEL'::text) AND (p_size = 48))"
-                                                                        }
-                                                                    ]
+                                                                    "Actual Startup Time": 127.072,
+                                                                    "Actual Total Time": 127.073,
+                                                                    "Actual Rows": 0,
+                                                                    "Actual Loops": 1,
+                                                                    "Output": [
+                                                                        "part.p_partkey",
+                                                                        "part.p_name",
+                                                                        "part.p_mfgr",
+                                                                        "part.p_brand",
+                                                                        "part.p_type",
+                                                                        "part.p_size",
+                                                                        "part.p_container",
+                                                                        "part.p_retailprice",
+                                                                        "part.p_comment"
+                                                                    ],
+                                                                    "Filter": "(((part.p_type)::text ~~ '%STEEL'::text) AND (part.p_size = 48))",
+                                                                    "Rows Removed by Filter": 200000
                                                                 },
                                                                 {
                                                                     "Node Type": "Index Scan",
@@ -112,13 +200,27 @@
                                                                     "Scan Direction": "Forward",
                                                                     "Index Name": "partsupp_pkey",
                                                                     "Relation Name": "partsupp",
+                                                                    "Schema": "public",
                                                                     "Alias": "partsupp",
                                                                     "Startup Cost": 0.42,
                                                                     "Total Cost": 211.85,
                                                                     "Plan Rows": 1,
                                                                     "Plan Width": 14,
-                                                                    "Index Cond": "(ps_partkey = part.p_partkey)",
-                                                                    "Filter": "((SubPlan 1) = ps_supplycost)",
+                                                                    "Actual Startup Time": 0.0,
+                                                                    "Actual Total Time": 0.0,
+                                                                    "Actual Rows": 0,
+                                                                    "Actual Loops": 0,
+                                                                    "Output": [
+                                                                        "partsupp.ps_partkey",
+                                                                        "partsupp.ps_suppkey",
+                                                                        "partsupp.ps_availqty",
+                                                                        "partsupp.ps_supplycost",
+                                                                        "partsupp.ps_comment"
+                                                                    ],
+                                                                    "Index Cond": "(partsupp.ps_partkey = part.p_partkey)",
+                                                                    "Rows Removed by Index Recheck": 0,
+                                                                    "Filter": "((SubPlan 1) = partsupp.ps_supplycost)",
+                                                                    "Rows Removed by Filter": 0,
                                                                     "Plans": [
                                                                         {
                                                                             "Node Type": "Aggregate",
@@ -132,6 +234,13 @@
                                                                             "Total Cost": 49.52,
                                                                             "Plan Rows": 1,
                                                                             "Plan Width": 32,
+                                                                            "Actual Startup Time": 0.0,
+                                                                            "Actual Total Time": 0.0,
+                                                                            "Actual Rows": 0,
+                                                                            "Actual Loops": 0,
+                                                                            "Output": [
+                                                                                "min(partsupp_1.ps_supplycost)"
+                                                                            ],
                                                                             "Plans": [
                                                                                 {
                                                                                     "Node Type": "Nested Loop",
@@ -143,6 +252,13 @@
                                                                                     "Total Cost": 49.51,
                                                                                     "Plan Rows": 1,
                                                                                     "Plan Width": 6,
+                                                                                    "Actual Startup Time": 0.0,
+                                                                                    "Actual Total Time": 0.0,
+                                                                                    "Actual Rows": 0,
+                                                                                    "Actual Loops": 0,
+                                                                                    "Output": [
+                                                                                        "partsupp_1.ps_supplycost"
+                                                                                    ],
                                                                                     "Inner Unique": true,
                                                                                     "Plans": [
                                                                                         {
@@ -155,6 +271,14 @@
                                                                                             "Total Cost": 47.63,
                                                                                             "Plan Rows": 4,
                                                                                             "Plan Width": 10,
+                                                                                            "Actual Startup Time": 0.0,
+                                                                                            "Actual Total Time": 0.0,
+                                                                                            "Actual Rows": 0,
+                                                                                            "Actual Loops": 0,
+                                                                                            "Output": [
+                                                                                                "partsupp_1.ps_supplycost",
+                                                                                                "nation_1.n_regionkey"
+                                                                                            ],
                                                                                             "Inner Unique": true,
                                                                                             "Plans": [
                                                                                                 {
@@ -167,6 +291,14 @@
                                                                                                     "Total Cost": 46.96,
                                                                                                     "Plan Rows": 4,
                                                                                                     "Plan Width": 10,
+                                                                                                    "Actual Startup Time": 0.0,
+                                                                                                    "Actual Total Time": 0.0,
+                                                                                                    "Actual Rows": 0,
+                                                                                                    "Actual Loops": 0,
+                                                                                                    "Output": [
+                                                                                                        "partsupp_1.ps_supplycost",
+                                                                                                        "supplier_1.s_nationkey"
+                                                                                                    ],
                                                                                                     "Inner Unique": true,
                                                                                                     "Plans": [
                                                                                                         {
@@ -177,12 +309,25 @@
                                                                                                             "Scan Direction": "Forward",
                                                                                                             "Index Name": "partsupp_pkey",
                                                                                                             "Relation Name": "partsupp",
+                                                                                                            "Schema": "public",
                                                                                                             "Alias": "partsupp_1",
                                                                                                             "Startup Cost": 0.42,
                                                                                                             "Total Cost": 13.75,
                                                                                                             "Plan Rows": 4,
                                                                                                             "Plan Width": 10,
-                                                                                                            "Index Cond": "(ps_partkey = part.p_partkey)"
+                                                                                                            "Actual Startup Time": 0.0,
+                                                                                                            "Actual Total Time": 0.0,
+                                                                                                            "Actual Rows": 0,
+                                                                                                            "Actual Loops": 0,
+                                                                                                            "Output": [
+                                                                                                                "partsupp_1.ps_partkey",
+                                                                                                                "partsupp_1.ps_suppkey",
+                                                                                                                "partsupp_1.ps_availqty",
+                                                                                                                "partsupp_1.ps_supplycost",
+                                                                                                                "partsupp_1.ps_comment"
+                                                                                                            ],
+                                                                                                            "Index Cond": "(partsupp_1.ps_partkey = part.p_partkey)",
+                                                                                                            "Rows Removed by Index Recheck": 0
                                                                                                         },
                                                                                                         {
                                                                                                             "Node Type": "Index Scan",
@@ -192,12 +337,27 @@
                                                                                                             "Scan Direction": "Forward",
                                                                                                             "Index Name": "supplier_pkey",
                                                                                                             "Relation Name": "supplier",
+                                                                                                            "Schema": "public",
                                                                                                             "Alias": "supplier_1",
                                                                                                             "Startup Cost": 0.29,
                                                                                                             "Total Cost": 8.3,
                                                                                                             "Plan Rows": 1,
                                                                                                             "Plan Width": 8,
-                                                                                                            "Index Cond": "(s_suppkey = partsupp_1.ps_suppkey)"
+                                                                                                            "Actual Startup Time": 0.0,
+                                                                                                            "Actual Total Time": 0.0,
+                                                                                                            "Actual Rows": 0,
+                                                                                                            "Actual Loops": 0,
+                                                                                                            "Output": [
+                                                                                                                "supplier_1.s_suppkey",
+                                                                                                                "supplier_1.s_name",
+                                                                                                                "supplier_1.s_address",
+                                                                                                                "supplier_1.s_nationkey",
+                                                                                                                "supplier_1.s_phone",
+                                                                                                                "supplier_1.s_acctbal",
+                                                                                                                "supplier_1.s_comment"
+                                                                                                            ],
+                                                                                                            "Index Cond": "(supplier_1.s_suppkey = partsupp_1.ps_suppkey)",
+                                                                                                            "Rows Removed by Index Recheck": 0
                                                                                                         }
                                                                                                     ]
                                                                                                 },
@@ -209,12 +369,24 @@
                                                                                                     "Scan Direction": "Forward",
                                                                                                     "Index Name": "nation_pkey",
                                                                                                     "Relation Name": "nation",
+                                                                                                    "Schema": "public",
                                                                                                     "Alias": "nation_1",
                                                                                                     "Startup Cost": 0.14,
                                                                                                     "Total Cost": 0.17,
                                                                                                     "Plan Rows": 1,
                                                                                                     "Plan Width": 8,
-                                                                                                    "Index Cond": "(n_nationkey = supplier_1.s_nationkey)"
+                                                                                                    "Actual Startup Time": 0.0,
+                                                                                                    "Actual Total Time": 0.0,
+                                                                                                    "Actual Rows": 0,
+                                                                                                    "Actual Loops": 0,
+                                                                                                    "Output": [
+                                                                                                        "nation_1.n_nationkey",
+                                                                                                        "nation_1.n_name",
+                                                                                                        "nation_1.n_regionkey",
+                                                                                                        "nation_1.n_comment"
+                                                                                                    ],
+                                                                                                    "Index Cond": "(nation_1.n_nationkey = supplier_1.s_nationkey)",
+                                                                                                    "Rows Removed by Index Recheck": 0
                                                                                                 }
                                                                                             ]
                                                                                         },
@@ -227,6 +399,13 @@
                                                                                             "Total Cost": 0.46,
                                                                                             "Plan Rows": 1,
                                                                                             "Plan Width": 4,
+                                                                                            "Actual Startup Time": 0.0,
+                                                                                            "Actual Total Time": 0.0,
+                                                                                            "Actual Rows": 0,
+                                                                                            "Actual Loops": 0,
+                                                                                            "Output": [
+                                                                                                "region_1.r_regionkey"
+                                                                                            ],
                                                                                             "Cache Key": "nation_1.n_regionkey",
                                                                                             "Cache Mode": "logical",
                                                                                             "Plans": [
@@ -238,13 +417,23 @@
                                                                                                     "Scan Direction": "Forward",
                                                                                                     "Index Name": "region_pkey",
                                                                                                     "Relation Name": "region",
+                                                                                                    "Schema": "public",
                                                                                                     "Alias": "region_1",
                                                                                                     "Startup Cost": 0.14,
                                                                                                     "Total Cost": 0.45,
                                                                                                     "Plan Rows": 1,
                                                                                                     "Plan Width": 4,
-                                                                                                    "Index Cond": "(r_regionkey = nation_1.n_regionkey)",
-                                                                                                    "Filter": "(r_name = 'EUROPE'::bpchar)"
+                                                                                                    "Actual Startup Time": 0.0,
+                                                                                                    "Actual Total Time": 0.0,
+                                                                                                    "Actual Rows": 0,
+                                                                                                    "Actual Loops": 0,
+                                                                                                    "Output": [
+                                                                                                        "region_1.r_regionkey"
+                                                                                                    ],
+                                                                                                    "Index Cond": "(region_1.r_regionkey = nation_1.n_regionkey)",
+                                                                                                    "Rows Removed by Index Recheck": 0,
+                                                                                                    "Filter": "(region_1.r_name = 'EUROPE'::bpchar)",
+                                                                                                    "Rows Removed by Filter": 0
                                                                                                 }
                                                                                             ]
                                                                                         }
@@ -264,12 +453,27 @@
                                                             "Scan Direction": "Forward",
                                                             "Index Name": "supplier_pkey",
                                                             "Relation Name": "supplier",
+                                                            "Schema": "public",
                                                             "Alias": "supplier",
                                                             "Startup Cost": 0.29,
                                                             "Total Cost": 0.3,
                                                             "Plan Rows": 1,
                                                             "Plan Width": 130,
-                                                            "Index Cond": "(s_suppkey = partsupp.ps_suppkey)"
+                                                            "Actual Startup Time": 0.0,
+                                                            "Actual Total Time": 0.0,
+                                                            "Actual Rows": 0,
+                                                            "Actual Loops": 0,
+                                                            "Output": [
+                                                                "supplier.s_suppkey",
+                                                                "supplier.s_name",
+                                                                "supplier.s_address",
+                                                                "supplier.s_nationkey",
+                                                                "supplier.s_phone",
+                                                                "supplier.s_acctbal",
+                                                                "supplier.s_comment"
+                                                            ],
+                                                            "Index Cond": "(supplier.s_suppkey = partsupp.ps_suppkey)",
+                                                            "Rows Removed by Index Recheck": 0
                                                         }
                                                     ]
                                                 },
@@ -279,11 +483,22 @@
                                                     "Parallel Aware": false,
                                                     "Async Capable": false,
                                                     "Relation Name": "nation",
+                                                    "Schema": "public",
                                                     "Alias": "nation",
                                                     "Startup Cost": 0.0,
                                                     "Total Cost": 11.7,
                                                     "Plan Rows": 170,
-                                                    "Plan Width": 112
+                                                    "Plan Width": 112,
+                                                    "Actual Startup Time": 0.0,
+                                                    "Actual Total Time": 0.0,
+                                                    "Actual Rows": 0,
+                                                    "Actual Loops": 0,
+                                                    "Output": [
+                                                        "nation.n_nationkey",
+                                                        "nation.n_name",
+                                                        "nation.n_regionkey",
+                                                        "nation.n_comment"
+                                                    ]
                                                 }
                                             ]
                                         },
@@ -293,19 +508,33 @@
                                             "Parallel Aware": false,
                                             "Async Capable": false,
                                             "Relation Name": "region",
+                                            "Schema": "public",
                                             "Alias": "region",
                                             "Startup Cost": 0.0,
                                             "Total Cost": 12.13,
                                             "Plan Rows": 1,
                                             "Plan Width": 4,
-                                            "Filter": "(r_name = 'EUROPE'::bpchar)"
+                                            "Actual Startup Time": 0.0,
+                                            "Actual Total Time": 0.0,
+                                            "Actual Rows": 0,
+                                            "Actual Loops": 0,
+                                            "Output": [
+                                                "region.r_regionkey",
+                                                "region.r_name",
+                                                "region.r_comment"
+                                            ],
+                                            "Filter": "(region.r_name = 'EUROPE'::bpchar)",
+                                            "Rows Removed by Filter": 0
                                         }
                                     ]
                                 }
                             ]
                         }
                     ]
-                }
+                },
+                "Planning Time": 14.764,
+                "Triggers": [],
+                "Execution Time": 127.367
             }
         ]
     ]

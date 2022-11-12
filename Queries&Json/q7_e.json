@@ -5,13 +5,23 @@
                 "Plan": {
                     "Node Type": "Aggregate",
                     "Strategy": "Sorted",
-                    "Partial Mode": "Finalize",
+                    "Partial Mode": "Simple",
                     "Parallel Aware": false,
                     "Async Capable": false,
-                    "Startup Cost": 43094.55,
-                    "Total Cost": 43111.44,
-                    "Plan Rows": 126,
+                    "Startup Cost": 68007.02,
+                    "Total Cost": 68011.08,
+                    "Plan Rows": 125,
                     "Plan Width": 272,
+                    "Actual Startup Time": 230.231,
+                    "Actual Total Time": 230.243,
+                    "Actual Rows": 0,
+                    "Actual Loops": 1,
+                    "Output": [
+                        "n1.n_name",
+                        "n2.n_name",
+                        "(EXTRACT(year FROM lineitem.l_shipdate))",
+                        "sum((lineitem.l_extendedprice * ('1'::numeric - lineitem.l_discount)))"
+                    ],
                     "Group Key": [
                         "n1.n_name",
                         "n2.n_name",
@@ -19,47 +29,82 @@
                     ],
                     "Plans": [
                         {
-                            "Node Type": "Gather Merge",
+                            "Node Type": "Sort",
                             "Parent Relationship": "Outer",
                             "Parallel Aware": false,
                             "Async Capable": false,
-                            "Startup Cost": 43094.55,
-                            "Total Cost": 43108.25,
-                            "Plan Rows": 104,
-                            "Plan Width": 272,
-                            "Workers Planned": 2,
+                            "Startup Cost": 68007.02,
+                            "Total Cost": 68007.33,
+                            "Plan Rows": 125,
+                            "Plan Width": 252,
+                            "Actual Startup Time": 230.225,
+                            "Actual Total Time": 230.237,
+                            "Actual Rows": 0,
+                            "Actual Loops": 1,
+                            "Output": [
+                                "n1.n_name",
+                                "n2.n_name",
+                                "(EXTRACT(year FROM lineitem.l_shipdate))",
+                                "lineitem.l_extendedprice",
+                                "lineitem.l_discount"
+                            ],
+                            "Sort Key": [
+                                "n1.n_name",
+                                "n2.n_name",
+                                "(EXTRACT(year FROM lineitem.l_shipdate))"
+                            ],
+                            "Sort Method": "quicksort",
+                            "Sort Space Used": 25,
+                            "Sort Space Type": "Memory",
                             "Plans": [
                                 {
-                                    "Node Type": "Aggregate",
-                                    "Strategy": "Sorted",
-                                    "Partial Mode": "Partial",
+                                    "Node Type": "Hash Join",
                                     "Parent Relationship": "Outer",
                                     "Parallel Aware": false,
                                     "Async Capable": false,
-                                    "Startup Cost": 42094.53,
-                                    "Total Cost": 42096.22,
-                                    "Plan Rows": 52,
-                                    "Plan Width": 272,
-                                    "Group Key": [
+                                    "Join Type": "Inner",
+                                    "Startup Cost": 5868.59,
+                                    "Total Cost": 68002.67,
+                                    "Plan Rows": 125,
+                                    "Plan Width": 252,
+                                    "Actual Startup Time": 230.151,
+                                    "Actual Total Time": 230.162,
+                                    "Actual Rows": 0,
+                                    "Actual Loops": 1,
+                                    "Output": [
                                         "n1.n_name",
                                         "n2.n_name",
-                                        "(EXTRACT(year FROM lineitem.l_shipdate))"
+                                        "EXTRACT(year FROM lineitem.l_shipdate)",
+                                        "lineitem.l_extendedprice",
+                                        "lineitem.l_discount"
                                     ],
+                                    "Inner Unique": false,
+                                    "Hash Cond": "(lineitem.l_suppkey = supplier.s_suppkey)",
+                                    "Join Filter": "(((n1.n_name = 'CANADA'::bpchar) AND (n2.n_name = 'BRAZIL'::bpchar)) OR ((n1.n_name = 'BRAZIL'::bpchar) AND (n2.n_name = 'CANADA'::bpchar)))",
+                                    "Rows Removed by Join Filter": 0,
                                     "Plans": [
                                         {
-                                            "Node Type": "Sort",
+                                            "Node Type": "Nested Loop",
                                             "Parent Relationship": "Outer",
                                             "Parallel Aware": false,
                                             "Async Capable": false,
-                                            "Startup Cost": 42094.53,
-                                            "Total Cost": 42094.66,
-                                            "Plan Rows": 52,
-                                            "Plan Width": 252,
-                                            "Sort Key": [
-                                                "n1.n_name",
-                                                "n2.n_name",
-                                                "(EXTRACT(year FROM lineitem.l_shipdate))"
+                                            "Join Type": "Inner",
+                                            "Startup Cost": 5522.63,
+                                            "Total Cost": 67572.17,
+                                            "Plan Rows": 21133,
+                                            "Plan Width": 124,
+                                            "Actual Startup Time": 223.817,
+                                            "Actual Total Time": 223.824,
+                                            "Actual Rows": 0,
+                                            "Actual Loops": 1,
+                                            "Output": [
+                                                "lineitem.l_shipdate",
+                                                "lineitem.l_extendedprice",
+                                                "lineitem.l_discount",
+                                                "lineitem.l_suppkey",
+                                                "n2.n_name"
                                             ],
+                                            "Inner Unique": false,
                                             "Plans": [
                                                 {
                                                     "Node Type": "Hash Join",
@@ -67,133 +112,47 @@
                                                     "Parallel Aware": false,
                                                     "Async Capable": false,
                                                     "Join Type": "Inner",
-                                                    "Startup Cost": 4745.31,
-                                                    "Total Cost": 42093.05,
-                                                    "Plan Rows": 52,
-                                                    "Plan Width": 252,
+                                                    "Startup Cost": 5522.2,
+                                                    "Total Cost": 46323.7,
+                                                    "Plan Rows": 17647,
+                                                    "Plan Width": 108,
+                                                    "Actual Startup Time": 223.816,
+                                                    "Actual Total Time": 223.822,
+                                                    "Actual Rows": 0,
+                                                    "Actual Loops": 1,
+                                                    "Output": [
+                                                        "orders.o_orderkey",
+                                                        "n2.n_name"
+                                                    ],
                                                     "Inner Unique": false,
-                                                    "Hash Cond": "(lineitem.l_suppkey = supplier.s_suppkey)",
-                                                    "Join Filter": "(((n1.n_name = 'CANADA'::bpchar) AND (n2.n_name = 'BRAZIL'::bpchar)) OR ((n1.n_name = 'BRAZIL'::bpchar) AND (n2.n_name = 'CANADA'::bpchar)))",
+                                                    "Hash Cond": "(orders.o_custkey = customer.c_custkey)",
                                                     "Plans": [
                                                         {
-                                                            "Node Type": "Nested Loop",
+                                                            "Node Type": "Seq Scan",
                                                             "Parent Relationship": "Outer",
                                                             "Parallel Aware": false,
                                                             "Async Capable": false,
-                                                            "Join Type": "Inner",
-                                                            "Startup Cost": 4399.35,
-                                                            "Total Cost": 41711.48,
-                                                            "Plan Rows": 8903,
-                                                            "Plan Width": 124,
-                                                            "Inner Unique": false,
-                                                            "Plans": [
-                                                                {
-                                                                    "Node Type": "Hash Join",
-                                                                    "Parent Relationship": "Outer",
-                                                                    "Parallel Aware": true,
-                                                                    "Async Capable": false,
-                                                                    "Join Type": "Inner",
-                                                                    "Startup Cost": 4398.92,
-                                                                    "Total Cost": 33023.29,
-                                                                    "Plan Rows": 7353,
-                                                                    "Plan Width": 108,
-                                                                    "Inner Unique": false,
-                                                                    "Hash Cond": "(orders.o_custkey = customer.c_custkey)",
-                                                                    "Plans": [
-                                                                        {
-                                                                            "Node Type": "Seq Scan",
-                                                                            "Parent Relationship": "Outer",
-                                                                            "Parallel Aware": true,
-                                                                            "Async Capable": false,
-                                                                            "Relation Name": "orders",
-                                                                            "Alias": "orders",
-                                                                            "Startup Cost": 0.0,
-                                                                            "Total Cost": 26250.0,
-                                                                            "Plan Rows": 625000,
-                                                                            "Plan Width": 8
-                                                                        },
-                                                                        {
-                                                                            "Node Type": "Hash",
-                                                                            "Parent Relationship": "Inner",
-                                                                            "Parallel Aware": true,
-                                                                            "Async Capable": false,
-                                                                            "Startup Cost": 4389.73,
-                                                                            "Total Cost": 4389.73,
-                                                                            "Plan Rows": 735,
-                                                                            "Plan Width": 108,
-                                                                            "Plans": [
-                                                                                {
-                                                                                    "Node Type": "Hash Join",
-                                                                                    "Parent Relationship": "Outer",
-                                                                                    "Parallel Aware": false,
-                                                                                    "Async Capable": false,
-                                                                                    "Join Type": "Inner",
-                                                                                    "Startup Cost": 12.58,
-                                                                                    "Total Cost": 4389.73,
-                                                                                    "Plan Rows": 735,
-                                                                                    "Plan Width": 108,
-                                                                                    "Inner Unique": true,
-                                                                                    "Hash Cond": "(customer.c_nationkey = n2.n_nationkey)",
-                                                                                    "Plans": [
-                                                                                        {
-                                                                                            "Node Type": "Seq Scan",
-                                                                                            "Parent Relationship": "Outer",
-                                                                                            "Parallel Aware": true,
-                                                                                            "Async Capable": false,
-                                                                                            "Relation Name": "customer",
-                                                                                            "Alias": "customer",
-                                                                                            "Startup Cost": 0.0,
-                                                                                            "Total Cost": 4209.0,
-                                                                                            "Plan Rows": 62500,
-                                                                                            "Plan Width": 8
-                                                                                        },
-                                                                                        {
-                                                                                            "Node Type": "Hash",
-                                                                                            "Parent Relationship": "Inner",
-                                                                                            "Parallel Aware": false,
-                                                                                            "Async Capable": false,
-                                                                                            "Startup Cost": 12.55,
-                                                                                            "Total Cost": 12.55,
-                                                                                            "Plan Rows": 2,
-                                                                                            "Plan Width": 108,
-                                                                                            "Plans": [
-                                                                                                {
-                                                                                                    "Node Type": "Seq Scan",
-                                                                                                    "Parent Relationship": "Outer",
-                                                                                                    "Parallel Aware": false,
-                                                                                                    "Async Capable": false,
-                                                                                                    "Relation Name": "nation",
-                                                                                                    "Alias": "n2",
-                                                                                                    "Startup Cost": 0.0,
-                                                                                                    "Total Cost": 12.55,
-                                                                                                    "Plan Rows": 2,
-                                                                                                    "Plan Width": 108,
-                                                                                                    "Filter": "((n_name = 'BRAZIL'::bpchar) OR (n_name = 'CANADA'::bpchar))"
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "Node Type": "Index Scan",
-                                                                    "Parent Relationship": "Inner",
-                                                                    "Parallel Aware": false,
-                                                                    "Async Capable": false,
-                                                                    "Scan Direction": "Forward",
-                                                                    "Index Name": "lineitem_pkey",
-                                                                    "Relation Name": "lineitem",
-                                                                    "Alias": "lineitem",
-                                                                    "Startup Cost": 0.43,
-                                                                    "Total Cost": 1.13,
-                                                                    "Plan Rows": 5,
-                                                                    "Plan Width": 24,
-                                                                    "Index Cond": "(l_orderkey = orders.o_orderkey)",
-                                                                    "Filter": "((l_shipdate >= '1995-01-01'::date) AND (l_shipdate <= '1996-12-31'::date))"
-                                                                }
+                                                            "Relation Name": "orders",
+                                                            "Schema": "public",
+                                                            "Alias": "orders",
+                                                            "Startup Cost": 0.0,
+                                                            "Total Cost": 35000.0,
+                                                            "Plan Rows": 1500000,
+                                                            "Plan Width": 8,
+                                                            "Actual Startup Time": 0.028,
+                                                            "Actual Total Time": 0.029,
+                                                            "Actual Rows": 1,
+                                                            "Actual Loops": 1,
+                                                            "Output": [
+                                                                "orders.o_orderkey",
+                                                                "orders.o_custkey",
+                                                                "orders.o_orderstatus",
+                                                                "orders.o_totalprice",
+                                                                "orders.o_orderdate",
+                                                                "orders.o_orderpriority",
+                                                                "orders.o_clerk",
+                                                                "orders.o_shippriority",
+                                                                "orders.o_comment"
                                                             ]
                                                         },
                                                         {
@@ -201,10 +160,23 @@
                                                             "Parent Relationship": "Inner",
                                                             "Parallel Aware": false,
                                                             "Async Capable": false,
-                                                            "Startup Cost": 344.48,
-                                                            "Total Cost": 344.48,
-                                                            "Plan Rows": 118,
+                                                            "Startup Cost": 5500.14,
+                                                            "Total Cost": 5500.14,
+                                                            "Plan Rows": 1765,
                                                             "Plan Width": 108,
+                                                            "Actual Startup Time": 223.773,
+                                                            "Actual Total Time": 223.779,
+                                                            "Actual Rows": 0,
+                                                            "Actual Loops": 1,
+                                                            "Output": [
+                                                                "customer.c_custkey",
+                                                                "n2.n_name"
+                                                            ],
+                                                            "Hash Buckets": 2048,
+                                                            "Original Hash Buckets": 2048,
+                                                            "Hash Batches": 1,
+                                                            "Original Hash Batches": 1,
+                                                            "Peak Memory Usage": 16,
                                                             "Plans": [
                                                                 {
                                                                     "Node Type": "Hash Join",
@@ -213,23 +185,46 @@
                                                                     "Async Capable": false,
                                                                     "Join Type": "Inner",
                                                                     "Startup Cost": 12.58,
-                                                                    "Total Cost": 344.48,
-                                                                    "Plan Rows": 118,
+                                                                    "Total Cost": 5500.14,
+                                                                    "Plan Rows": 1765,
                                                                     "Plan Width": 108,
+                                                                    "Actual Startup Time": 223.771,
+                                                                    "Actual Total Time": 223.776,
+                                                                    "Actual Rows": 0,
+                                                                    "Actual Loops": 1,
+                                                                    "Output": [
+                                                                        "customer.c_custkey",
+                                                                        "n2.n_name"
+                                                                    ],
                                                                     "Inner Unique": true,
-                                                                    "Hash Cond": "(supplier.s_nationkey = n1.n_nationkey)",
+                                                                    "Hash Cond": "(customer.c_nationkey = n2.n_nationkey)",
                                                                     "Plans": [
                                                                         {
                                                                             "Node Type": "Seq Scan",
                                                                             "Parent Relationship": "Outer",
                                                                             "Parallel Aware": false,
                                                                             "Async Capable": false,
-                                                                            "Relation Name": "supplier",
-                                                                            "Alias": "supplier",
+                                                                            "Relation Name": "customer",
+                                                                            "Schema": "public",
+                                                                            "Alias": "customer",
                                                                             "Startup Cost": 0.0,
-                                                                            "Total Cost": 305.0,
-                                                                            "Plan Rows": 10000,
-                                                                            "Plan Width": 8
+                                                                            "Total Cost": 5084.0,
+                                                                            "Plan Rows": 150000,
+                                                                            "Plan Width": 8,
+                                                                            "Actual Startup Time": 0.01,
+                                                                            "Actual Total Time": 195.462,
+                                                                            "Actual Rows": 150000,
+                                                                            "Actual Loops": 1,
+                                                                            "Output": [
+                                                                                "customer.c_custkey",
+                                                                                "customer.c_name",
+                                                                                "customer.c_address",
+                                                                                "customer.c_nationkey",
+                                                                                "customer.c_phone",
+                                                                                "customer.c_acctbal",
+                                                                                "customer.c_mktsegment",
+                                                                                "customer.c_comment"
+                                                                            ]
                                                                         },
                                                                         {
                                                                             "Node Type": "Hash",
@@ -240,6 +235,19 @@
                                                                             "Total Cost": 12.55,
                                                                             "Plan Rows": 2,
                                                                             "Plan Width": 108,
+                                                                            "Actual Startup Time": 0.015,
+                                                                            "Actual Total Time": 0.018,
+                                                                            "Actual Rows": 2,
+                                                                            "Actual Loops": 1,
+                                                                            "Output": [
+                                                                                "n2.n_name",
+                                                                                "n2.n_nationkey"
+                                                                            ],
+                                                                            "Hash Buckets": 1024,
+                                                                            "Original Hash Buckets": 1024,
+                                                                            "Hash Batches": 1,
+                                                                            "Original Hash Batches": 1,
+                                                                            "Peak Memory Usage": 9,
                                                                             "Plans": [
                                                                                 {
                                                                                     "Node Type": "Seq Scan",
@@ -247,16 +255,189 @@
                                                                                     "Parallel Aware": false,
                                                                                     "Async Capable": false,
                                                                                     "Relation Name": "nation",
-                                                                                    "Alias": "n1",
+                                                                                    "Schema": "public",
+                                                                                    "Alias": "n2",
                                                                                     "Startup Cost": 0.0,
                                                                                     "Total Cost": 12.55,
                                                                                     "Plan Rows": 2,
                                                                                     "Plan Width": 108,
-                                                                                    "Filter": "((n_name = 'CANADA'::bpchar) OR (n_name = 'BRAZIL'::bpchar))"
+                                                                                    "Actual Startup Time": 0.009,
+                                                                                    "Actual Total Time": 0.013,
+                                                                                    "Actual Rows": 2,
+                                                                                    "Actual Loops": 1,
+                                                                                    "Output": [
+                                                                                        "n2.n_name",
+                                                                                        "n2.n_nationkey"
+                                                                                    ],
+                                                                                    "Filter": "((n2.n_name = 'BRAZIL'::bpchar) OR (n2.n_name = 'CANADA'::bpchar))",
+                                                                                    "Rows Removed by Filter": 23
                                                                                 }
                                                                             ]
                                                                         }
                                                                     ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Node Type": "Index Scan",
+                                                    "Parent Relationship": "Inner",
+                                                    "Parallel Aware": false,
+                                                    "Async Capable": false,
+                                                    "Scan Direction": "Forward",
+                                                    "Index Name": "lineitem_pkey",
+                                                    "Relation Name": "lineitem",
+                                                    "Schema": "public",
+                                                    "Alias": "lineitem",
+                                                    "Startup Cost": 0.43,
+                                                    "Total Cost": 1.15,
+                                                    "Plan Rows": 5,
+                                                    "Plan Width": 24,
+                                                    "Actual Startup Time": 0.0,
+                                                    "Actual Total Time": 0.0,
+                                                    "Actual Rows": 0,
+                                                    "Actual Loops": 0,
+                                                    "Output": [
+                                                        "lineitem.l_orderkey",
+                                                        "lineitem.l_partkey",
+                                                        "lineitem.l_suppkey",
+                                                        "lineitem.l_linenumber",
+                                                        "lineitem.l_quantity",
+                                                        "lineitem.l_extendedprice",
+                                                        "lineitem.l_discount",
+                                                        "lineitem.l_tax",
+                                                        "lineitem.l_returnflag",
+                                                        "lineitem.l_linestatus",
+                                                        "lineitem.l_shipdate",
+                                                        "lineitem.l_commitdate",
+                                                        "lineitem.l_receiptdate",
+                                                        "lineitem.l_shipinstruct",
+                                                        "lineitem.l_shipmode",
+                                                        "lineitem.l_comment"
+                                                    ],
+                                                    "Index Cond": "(lineitem.l_orderkey = orders.o_orderkey)",
+                                                    "Rows Removed by Index Recheck": 0,
+                                                    "Filter": "((lineitem.l_shipdate >= '1995-01-01'::date) AND (lineitem.l_shipdate <= '1996-12-31'::date))",
+                                                    "Rows Removed by Filter": 0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Node Type": "Hash",
+                                            "Parent Relationship": "Inner",
+                                            "Parallel Aware": false,
+                                            "Async Capable": false,
+                                            "Startup Cost": 344.48,
+                                            "Total Cost": 344.48,
+                                            "Plan Rows": 118,
+                                            "Plan Width": 108,
+                                            "Actual Startup Time": 6.309,
+                                            "Actual Total Time": 6.312,
+                                            "Actual Rows": 809,
+                                            "Actual Loops": 1,
+                                            "Output": [
+                                                "supplier.s_suppkey",
+                                                "n1.n_name"
+                                            ],
+                                            "Hash Buckets": 1024,
+                                            "Original Hash Buckets": 1024,
+                                            "Hash Batches": 1,
+                                            "Original Hash Batches": 1,
+                                            "Peak Memory Usage": 57,
+                                            "Plans": [
+                                                {
+                                                    "Node Type": "Hash Join",
+                                                    "Parent Relationship": "Outer",
+                                                    "Parallel Aware": false,
+                                                    "Async Capable": false,
+                                                    "Join Type": "Inner",
+                                                    "Startup Cost": 12.58,
+                                                    "Total Cost": 344.48,
+                                                    "Plan Rows": 118,
+                                                    "Plan Width": 108,
+                                                    "Actual Startup Time": 0.199,
+                                                    "Actual Total Time": 6.061,
+                                                    "Actual Rows": 809,
+                                                    "Actual Loops": 1,
+                                                    "Output": [
+                                                        "supplier.s_suppkey",
+                                                        "n1.n_name"
+                                                    ],
+                                                    "Inner Unique": true,
+                                                    "Hash Cond": "(supplier.s_nationkey = n1.n_nationkey)",
+                                                    "Plans": [
+                                                        {
+                                                            "Node Type": "Seq Scan",
+                                                            "Parent Relationship": "Outer",
+                                                            "Parallel Aware": false,
+                                                            "Async Capable": false,
+                                                            "Relation Name": "supplier",
+                                                            "Schema": "public",
+                                                            "Alias": "supplier",
+                                                            "Startup Cost": 0.0,
+                                                            "Total Cost": 305.0,
+                                                            "Plan Rows": 10000,
+                                                            "Plan Width": 8,
+                                                            "Actual Startup Time": 0.084,
+                                                            "Actual Total Time": 3.187,
+                                                            "Actual Rows": 10000,
+                                                            "Actual Loops": 1,
+                                                            "Output": [
+                                                                "supplier.s_suppkey",
+                                                                "supplier.s_name",
+                                                                "supplier.s_address",
+                                                                "supplier.s_nationkey",
+                                                                "supplier.s_phone",
+                                                                "supplier.s_acctbal",
+                                                                "supplier.s_comment"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "Node Type": "Hash",
+                                                            "Parent Relationship": "Inner",
+                                                            "Parallel Aware": false,
+                                                            "Async Capable": false,
+                                                            "Startup Cost": 12.55,
+                                                            "Total Cost": 12.55,
+                                                            "Plan Rows": 2,
+                                                            "Plan Width": 108,
+                                                            "Actual Startup Time": 0.088,
+                                                            "Actual Total Time": 0.089,
+                                                            "Actual Rows": 2,
+                                                            "Actual Loops": 1,
+                                                            "Output": [
+                                                                "n1.n_name",
+                                                                "n1.n_nationkey"
+                                                            ],
+                                                            "Hash Buckets": 1024,
+                                                            "Original Hash Buckets": 1024,
+                                                            "Hash Batches": 1,
+                                                            "Original Hash Batches": 1,
+                                                            "Peak Memory Usage": 9,
+                                                            "Plans": [
+                                                                {
+                                                                    "Node Type": "Seq Scan",
+                                                                    "Parent Relationship": "Outer",
+                                                                    "Parallel Aware": false,
+                                                                    "Async Capable": false,
+                                                                    "Relation Name": "nation",
+                                                                    "Schema": "public",
+                                                                    "Alias": "n1",
+                                                                    "Startup Cost": 0.0,
+                                                                    "Total Cost": 12.55,
+                                                                    "Plan Rows": 2,
+                                                                    "Plan Width": 108,
+                                                                    "Actual Startup Time": 0.076,
+                                                                    "Actual Total Time": 0.082,
+                                                                    "Actual Rows": 2,
+                                                                    "Actual Loops": 1,
+                                                                    "Output": [
+                                                                        "n1.n_name",
+                                                                        "n1.n_nationkey"
+                                                                    ],
+                                                                    "Filter": "((n1.n_name = 'CANADA'::bpchar) OR (n1.n_name = 'BRAZIL'::bpchar))",
+                                                                    "Rows Removed by Filter": 23
                                                                 }
                                                             ]
                                                         }
@@ -269,7 +450,10 @@
                             ]
                         }
                     ]
-                }
+                },
+                "Planning Time": 12.23,
+                "Triggers": [],
+                "Execution Time": 230.957
             }
         ]
     ]

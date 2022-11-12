@@ -5,107 +5,147 @@
                 "Plan": {
                     "Node Type": "Aggregate",
                     "Strategy": "Sorted",
-                    "Partial Mode": "Finalize",
+                    "Partial Mode": "Simple",
                     "Parallel Aware": false,
                     "Async Capable": false,
-                    "Startup Cost": 82777.27,
-                    "Total Cost": 82829.51,
+                    "Startup Cost": 162544.44,
+                    "Total Cost": 162652.37,
                     "Plan Rows": 5,
                     "Plan Width": 24,
+                    "Actual Startup Time": 2685.868,
+                    "Actual Total Time": 2725.964,
+                    "Actual Rows": 5,
+                    "Actual Loops": 1,
+                    "Output": [
+                        "orders.o_orderpriority",
+                        "count(*)"
+                    ],
                     "Group Key": [
                         "orders.o_orderpriority"
                     ],
                     "Plans": [
                         {
-                            "Node Type": "Gather Merge",
+                            "Node Type": "Sort",
                             "Parent Relationship": "Outer",
                             "Parallel Aware": false,
                             "Async Capable": false,
-                            "Startup Cost": 82777.27,
-                            "Total Cost": 82829.41,
-                            "Plan Rows": 10,
-                            "Plan Width": 24,
-                            "Workers Planned": 2,
+                            "Startup Cost": 162544.44,
+                            "Total Cost": 162580.4,
+                            "Plan Rows": 14383,
+                            "Plan Width": 16,
+                            "Actual Startup Time": 2678.618,
+                            "Actual Total Time": 2708.45,
+                            "Actual Rows": 56671,
+                            "Actual Loops": 1,
+                            "Output": [
+                                "orders.o_orderpriority"
+                            ],
+                            "Sort Key": [
+                                "orders.o_orderpriority"
+                            ],
+                            "Sort Method": "external merge",
+                            "Sort Space Used": 1448,
+                            "Sort Space Type": "Disk",
                             "Plans": [
                                 {
-                                    "Node Type": "Aggregate",
-                                    "Strategy": "Sorted",
-                                    "Partial Mode": "Partial",
+                                    "Node Type": "Nested Loop",
                                     "Parent Relationship": "Outer",
                                     "Parallel Aware": false,
                                     "Async Capable": false,
-                                    "Startup Cost": 81777.24,
-                                    "Total Cost": 81828.23,
-                                    "Plan Rows": 5,
-                                    "Plan Width": 24,
-                                    "Group Key": [
+                                    "Join Type": "Semi",
+                                    "Startup Cost": 0.43,
+                                    "Total Cost": 161551.15,
+                                    "Plan Rows": 14383,
+                                    "Plan Width": 16,
+                                    "Actual Startup Time": 0.237,
+                                    "Actual Total Time": 2567.202,
+                                    "Actual Rows": 56671,
+                                    "Actual Loops": 1,
+                                    "Output": [
                                         "orders.o_orderpriority"
                                     ],
+                                    "Inner Unique": false,
                                     "Plans": [
                                         {
-                                            "Node Type": "Sort",
+                                            "Node Type": "Seq Scan",
                                             "Parent Relationship": "Outer",
                                             "Parallel Aware": false,
                                             "Async Capable": false,
-                                            "Startup Cost": 81777.24,
-                                            "Total Cost": 81794.22,
-                                            "Plan Rows": 6792,
-                                            "Plan Width": 16,
-                                            "Sort Key": [
-                                                "orders.o_orderpriority"
+                                            "Relation Name": "orders",
+                                            "Schema": "public",
+                                            "Alias": "orders",
+                                            "Startup Cost": 0.0,
+                                            "Total Cost": 42500.0,
+                                            "Plan Rows": 56842,
+                                            "Plan Width": 20,
+                                            "Actual Startup Time": 0.042,
+                                            "Actual Total Time": 702.485,
+                                            "Actual Rows": 57768,
+                                            "Actual Loops": 1,
+                                            "Output": [
+                                                "orders.o_orderkey",
+                                                "orders.o_custkey",
+                                                "orders.o_orderstatus",
+                                                "orders.o_totalprice",
+                                                "orders.o_orderdate",
+                                                "orders.o_orderpriority",
+                                                "orders.o_clerk",
+                                                "orders.o_shippriority",
+                                                "orders.o_comment"
                                             ],
-                                            "Plans": [
-                                                {
-                                                    "Node Type": "Nested Loop",
-                                                    "Parent Relationship": "Outer",
-                                                    "Parallel Aware": false,
-                                                    "Async Capable": false,
-                                                    "Join Type": "Semi",
-                                                    "Startup Cost": 0.43,
-                                                    "Total Cost": 81344.94,
-                                                    "Plan Rows": 6792,
-                                                    "Plan Width": 16,
-                                                    "Inner Unique": false,
-                                                    "Plans": [
-                                                        {
-                                                            "Node Type": "Seq Scan",
-                                                            "Parent Relationship": "Outer",
-                                                            "Parallel Aware": true,
-                                                            "Async Capable": false,
-                                                            "Relation Name": "orders",
-                                                            "Alias": "orders",
-                                                            "Startup Cost": 0.0,
-                                                            "Total Cost": 29375.0,
-                                                            "Plan Rows": 25881,
-                                                            "Plan Width": 20,
-                                                            "Filter": "((o_orderdate >= '1996-07-01'::date) AND (o_orderdate < '1996-10-01 00:00:00'::timestamp without time zone))"
-                                                        },
-                                                        {
-                                                            "Node Type": "Index Scan",
-                                                            "Parent Relationship": "Inner",
-                                                            "Parallel Aware": false,
-                                                            "Async Capable": false,
-                                                            "Scan Direction": "Forward",
-                                                            "Index Name": "lineitem_pkey",
-                                                            "Relation Name": "lineitem",
-                                                            "Alias": "lineitem",
-                                                            "Startup Cost": 0.43,
-                                                            "Total Cost": 7.15,
-                                                            "Plan Rows": 5,
-                                                            "Plan Width": 4,
-                                                            "Index Cond": "(l_orderkey = orders.o_orderkey)",
-                                                            "Filter": "(l_commitdate < l_receiptdate)"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
+                                            "Filter": "((orders.o_orderdate >= '1996-07-01'::date) AND (orders.o_orderdate < '1996-10-01 00:00:00'::timestamp without time zone))",
+                                            "Rows Removed by Filter": 1442232
+                                        },
+                                        {
+                                            "Node Type": "Index Scan",
+                                            "Parent Relationship": "Inner",
+                                            "Parallel Aware": false,
+                                            "Async Capable": false,
+                                            "Scan Direction": "Forward",
+                                            "Index Name": "lineitem_pkey",
+                                            "Relation Name": "lineitem",
+                                            "Schema": "public",
+                                            "Alias": "lineitem",
+                                            "Startup Cost": 0.43,
+                                            "Total Cost": 7.64,
+                                            "Plan Rows": 5,
+                                            "Plan Width": 4,
+                                            "Actual Startup Time": 0.031,
+                                            "Actual Total Time": 0.031,
+                                            "Actual Rows": 1,
+                                            "Actual Loops": 57768,
+                                            "Output": [
+                                                "lineitem.l_orderkey",
+                                                "lineitem.l_partkey",
+                                                "lineitem.l_suppkey",
+                                                "lineitem.l_linenumber",
+                                                "lineitem.l_quantity",
+                                                "lineitem.l_extendedprice",
+                                                "lineitem.l_discount",
+                                                "lineitem.l_tax",
+                                                "lineitem.l_returnflag",
+                                                "lineitem.l_linestatus",
+                                                "lineitem.l_shipdate",
+                                                "lineitem.l_commitdate",
+                                                "lineitem.l_receiptdate",
+                                                "lineitem.l_shipinstruct",
+                                                "lineitem.l_shipmode",
+                                                "lineitem.l_comment"
+                                            ],
+                                            "Index Cond": "(lineitem.l_orderkey = orders.o_orderkey)",
+                                            "Rows Removed by Index Recheck": 0,
+                                            "Filter": "(lineitem.l_commitdate < lineitem.l_receiptdate)",
+                                            "Rows Removed by Filter": 0
                                         }
                                     ]
                                 }
                             ]
                         }
                     ]
-                }
+                },
+                "Planning Time": 11.308,
+                "Triggers": [],
+                "Execution Time": 2729.69
             }
         ]
     ]

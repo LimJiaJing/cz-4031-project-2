@@ -192,4 +192,4 @@ if __name__ == "__main__":
     # print(tables)
     query_string = query_asker()
     QEP_Generator(conn, query_string)
-    AQP_generator(conn, query_string)
+    #AQP_generator(conn, query_string)
