@@ -29,7 +29,7 @@ qep_summary = {
             None,
             None,
             "l_suppkey = s_suppkey",
-            "Hash Cond",
+            "Hash Join",
             67614.45
         ],
         [
@@ -47,7 +47,7 @@ qep_summary = {
             None,
             None,
             "l_suppkey = s_suppkey",
-            "Hash Cond",
+            "Hash Join",
             67614.45
         ],
         [
@@ -101,21 +101,21 @@ qep_summary = {
     ],
     "l_shipdate >= '1995-01-01'": [
         [
-            "Index Scan",
+            "Index Join",
             "lineitem_pkey",
             "lineitem",
             "l_orderkey = o_orderkey",
-            "Index Cond",
+            "Index Join",
             67614.45
         ]
     ],
     "l_shipdate <= '1996-12-31'": [
         [
-            "Index Scan",
+            "Index Join",
             "lineitem_pkey",
             "lineitem",
             "l_orderkey = o_orderkey",
-            "Index Cond",
+            "Index Join",
             67614.45
         ]
     ],
@@ -200,14 +200,40 @@ def add_to_res(qep_summary, sql_summary, sql_key, qep_key):
         if "Seq Scan" in set([e[0] for e in qep_summary[qep_key]]):
             for e in qep_summary[qep_key]:
                 if e[0] == "Seq Scan":
-                    res[(sql_key, tuple(sql_summary[sql_key]))] = e
+                    res[(sql_key, tuple(sql_summary[sql_key]))] = create_explanation(e)
                     break
         else:
             print("Not resolved")
 
     else:
-        res[(sql_key, tuple(sql_summary[sql_key]))] = qep_summary[qep_key][0]
+        res[(sql_key, tuple(sql_summary[sql_key]))] = create_explanation(qep_summary[qep_key][0])
 
+def create_explanation(info):
+    # (algorithm, index_key, relation, cond, join_algo, cost)
+    algo, key, relation, cond, join_algo, cost = info
+    # index join filter
+    if (algo == "Index Join") and cond != None:
+        return f"Filtered from the results of {algo} on '{cond}'. " \
+               f"The {algo} used  relation '{relation}' index key '{key}'."
+    # hash join filter
+    elif (algo == "Hash Join") and cond != None:
+        return f"Filtered from the results of {algo} on '{cond}'."
+    # index join
+    elif (algo == "Index Join"):
+        return f"Join using {algo}." \
+               f"The {algo} used relation '{relation}' index key '{key}'."
+    # nested loop join, hash join
+    elif (algo == "Nested Loop") or (algo == "Hash Join"):
+        return f"Join using {algo}."
+    # table read using index scan
+    elif (algo == "Index Scan") and (cond == None):
+        return f"Read using {algo} with index key '{key}'."
+    # table read using sequential scan
+    elif (algo == "Seq Scan"):
+        return f"Read using {algo}."
+    else:
+        print(info)
+        return "Unresolved"
 if __name__ == "__main__":
     sql_summary = parse_sql(sql)
 
