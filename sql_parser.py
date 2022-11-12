@@ -29,13 +29,19 @@ def get_sql_to_level_mapping(query_list):
     is_unwanted_line = True
     i = 0
     while i < len(query_list):
+        line_to_skip = 1                
         if re.search(r'\(SELECT', query_list[i]):
             new_cleaned_key = modify_key_for_subquery(i, query_list, sql_to_level_mapping)
             query_list[i] = new_cleaned_key
+            is_unwanted_line = True
+            cleaned_key = remove_unwanted_keywords(
+                query_list[i], has_in_keyword)
+            sql_to_level_mapping[cleaned_key].append(i)
+            i += line_to_skip
+            continue
 
         has_in_keyword = False
-        line_to_skip = 1
-        if re.search(r'FROM|WHERE', query_list[i]) or (not is_unwanted_line and not re.search(r'SELECT|ORDER BY', query_list[i])):
+        if (re.search(r'FROM', query_list[i]) and not re.search(r'\(|\)', query_list[i])) or re.search(r'WHERE', query_list[i]) or (not is_unwanted_line and not re.search(r'SELECT|ORDER BY', query_list[i])):
             is_unwanted_line = False
 
             if re.search(r'in \(', query_list[i]):
@@ -60,7 +66,14 @@ def get_sql_to_level_mapping(query_list):
                     sql_to_level_mapping[key2].append(i)
                     del sql_to_level_mapping[cleaned_key]
                 except:
-                    pass
+                    # might be a date
+                    regex = r'(.*) BETWEEN date (.*) AND date (.*) AS .*'
+                    if re.match(regex, cleaned_key):
+                        key1 = re.sub(regex, r'\1 >= ' + "date " + r'\2', cleaned_key).strip()
+                        key2 = re.sub(regex, r'\1 <= ' + "date " + r'\3', cleaned_key).strip()
+                        sql_to_level_mapping[key1].append(i)
+                        sql_to_level_mapping[key2].append(i)
+                        del sql_to_level_mapping[cleaned_key]
 
             if re.match(r'(.*) (=|>|<|>=|<=|<>) (.*)', cleaned_key):
                 reversed_cleaned_key = re.sub(r'(.*) (=) (.*)', r'\3 \2 \1', cleaned_key)
@@ -134,6 +147,10 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
         key = re.sub(regex, "", key).strip()
 
     regex = re.compile(r'([a-z].*\.)?([a-z].*) (=|>|<|>=|<=|<>) ([a-z].*\.)?([a-z].*)')
+    if re.match(regex, key):
+        key = re.sub(regex, r'\2 \3 \5', key)
+
+    regex = re.compile(r'([a-z].*\.)?([a-z].*) (=|>|<|>=|<=|<>) ([a-z].*\.)?(.*)')
     if re.match(regex, key):
         key = re.sub(regex, r'\2 \3 \5', key)
 
