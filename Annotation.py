@@ -4,7 +4,7 @@ from treelib import Node, Tree
 from deepdiff import DeepDiff
 import json
 import re
-import preprossessing
+import preprocessing
 
 def bfs(root):
     queue = []
@@ -111,7 +111,7 @@ def get_attributes(plan):
     return attributes
 
 if __name__ == "__main__":
-    start = preprossessing.connect()
+    start = preprocessing.connect()
     conn = start[0]
     tables = start[1]
     # print(tables)
