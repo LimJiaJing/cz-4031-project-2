@@ -1,10 +1,11 @@
 import tkinter as tk  
 from tkinter import ttk
-from preprocessing import parse_sql
+import preprocessing 
+import sqlparse
 
 window = tk.Tk()
 window.title('My Window')
-window.geometry('1500x900')
+window.geometry('900x600')
 
 leftside = tk.Frame(window)
 rightside = tk.Frame(window)
