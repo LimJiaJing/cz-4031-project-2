@@ -34,6 +34,21 @@ logbutton=tk.Button(login, text='login')
 logbutton.pack(pady=5)
 leftside.grid(row=0,column=0,padx = 10,pady = 5)
 rightside.grid(row=0,column=1,padx = 10,pady = 5)
+login = tk.Frame(leftside)
+#necessary infomation for login
+Info = tk.Text(login,height = 4, width = 80,font=("Courier", 12, "italic"),background='gray')
+userlab=tk.Label()
+Username= tk.Entry(login, width=50)
+Pw = tk.Entry(login, width = 50)
+Name_of_database =tk.Entry(login, width=50)
+Infomation = "pls enter you SQL username, password and the name of the database\n  first line for username \n second line for username \n third line for database name"
+Info.insert(tk.INSERT, Infomation)
+login.pack(pady=5)
+Info.pack(pady=5)
+Username.pack(pady=5)
+Pw.pack(pady=5)
+Name_of_database.pack(pady=5)
+logbutton=tk.Button(login, text='login')
 # create a Textbox to accept query in put
 frame = tk.Frame(leftside, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
@@ -72,7 +87,7 @@ scrollable_frame.bind(
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
-
+logbutton.pack(pady=5)
 
 # Function for submit buton
 def get():
@@ -120,7 +135,8 @@ def loginfunction():
    if User == '123':
      button.config(command=get)
      button1.config(command=clear)
-     print(User)
+
+
    else:
      newWindow = tk.Toplevel(window)
      newWindow.geometry("360x200")
@@ -134,4 +150,6 @@ scrollbar.pack(side="right", fill="y")
 # button.config(command=get)
 # button1.config(command=clear)
 #continuing refresh the window
+# #continuing refresh the window
+
 window.mainloop()
