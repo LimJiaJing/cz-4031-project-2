@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import preprocessing 
 import sqlparse
-import annotation
+import annotation as annotation_comp
 
 window = tk.Tk()
 window.title('My Window')
@@ -52,7 +52,7 @@ canvas.configure(yscrollcommand=scrollbar.set)
 def get():
      query = preprocessing.query_asker()
      preprocessing.run_preprocessing(query)
-     anno=annotation.generate_annotation(query)
+     anno=annotation_comp.generate_annotation(query)
     #  anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
      raw=text.get()
      text_content = sqlparse.format(raw.strip(), strip_comments=True,
