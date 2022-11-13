@@ -72,7 +72,7 @@ def query_asker():
             break
     print("Finished reading query.\n")
     print("Generating QEP and AQP(s).\n")
-    modified_query = "SET max_parallel_workers_per_gather = 0;EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
+    modified_query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
     return modified_query
 
 
@@ -117,80 +117,79 @@ def conditions_generator(operation_list, input_string):
     list_of_AQP_Queries = []
     list_of_disables = []
     count = 1
-    temp_input_string = "SET max_parallel_workers_per_gather = 0;\n" + input_string
     for i in operation_list:
         print(i)
         # Gather not in because i dont know where to pu
         # not sure about hash/aggregate
         # if i == "Hash" or i == "Aggregate":
-        #     modified_string="SET enable_hashagg TO off;\n"+temp_input_string
+        #     modified_string="SET enable_hashagg TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
         #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         #       count+=1
         if i == "Hash Join":
-            modified_string = "SET enable_hashjoin TO off;\n" + temp_input_string
+            modified_string = "SET enable_hashjoin TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
-        elif i == "Bitmap Heap Scan" or i == "Bitmap Index Scan":
-            modified_string = "SET enable_bitmapscan TO off;\n" + temp_input_string
-            if modified_string not in list_of_AQP_Queries:
-                list_of_AQP_Queries.append(modified_string)
-                list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
-                count += 1
+        # elif i == "Bitmap Heap Scan" or i == "Bitmap Index Scan":
+        #     modified_string = "SET enable_bitmapscan TO off;\n" + input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #         list_of_AQP_Queries.append(modified_string)
+        #         list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
+        #         count += 1
         # elif i == "Seq Scan":
-        #     modified_string="SET enable_seqscan TO off;\n"+temp_input_string
+        #     modified_string="SET enable_seqscan TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
         #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         #       count+=1
-        elif i == "Index Only Scan":
-            modified_string = "SET enable_indexonlyscan TO off;\n" + temp_input_string
-            if modified_string not in list_of_AQP_Queries:
-                list_of_AQP_Queries.append(modified_string)
-                list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
-                count += 1
+        # elif i == "Index Only Scan":
+        #     modified_string = "SET enable_indexonlyscan TO off;\n" + input_string
+        #     if modified_string not in list_of_AQP_Queries:
+        #         list_of_AQP_Queries.append(modified_string)
+        #         list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
+        #         count += 1
         elif i == "Index Scan":
-            modified_string = "SET enable_indexscan TO off;\n" + "SET enable_bitmapscan TO off;\n" + temp_input_string
+            modified_string = "SET enable_indexscan TO off;\n" + "SET enable_bitmapscan TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
         # elif i == "Materialize":
-        #     modified_string="SET enable_material TO off;\n"+temp_input_string
+        #     modified_string="SET enable_material TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
         #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         #       count+=1
         # elif i == "Sort":
-        #     modified_string="SET enable_sort TO off;\n"+temp_input_string
+        #     modified_string="SET enable_sort TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
         #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
         #       count+=1
         elif i == "Nested Loop":
-            modified_string = "SET enable_nestloop TO off;\n" + temp_input_string
+            modified_string = "SET enable_nestloop TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
         # not sure about gather merge
         elif i == "Merge Join":
-            modified_string = "SET enable_mergejoin TO off;\n" + temp_input_string
+            modified_string = "SET enable_mergejoin TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
         elif i == "Gather Merge":
-            modified_string = "SET enable_gathermerge TO off;\n" + temp_input_string
+            modified_string = "SET enable_gathermerge TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
         # elif i == "Memoize":
-        #     modified_string = "SET enable_memoize TO off;\n"+temp_input_string
+        #     modified_string = "SET enable_memoize TO off;\n"+input_string
         #     if modified_string not in list_of_AQP_Queries:
         #       list_of_AQP_Queries.append(modified_string)
         #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
