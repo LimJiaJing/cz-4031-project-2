@@ -2,7 +2,11 @@
 This repository contains the implementation for Project 2 of "Database Systems Principles (CZ/CE4031)". 
 
 # Requirements
-Install dependencies
+
+1. Extract files from zip file `cz4031-project-2.zip`  
+2. Enter directory `cz4031-project-2`
+
+# Install dependencies
 ```
 pip install -r requirements.txt
 ```
@@ -13,10 +17,7 @@ pip install -r requirements.txt
 
 
 ## 1. Windows executable file
-
-1. Extract files from zip file `cz4031-project-2.zip`  
-2. Enter directory `cz4031-project-2`
-3. Double click `project.py` to run the program  
+1. Double click `project.py` to run the program  
 
 ![image](images/Run%20program.png)
 
