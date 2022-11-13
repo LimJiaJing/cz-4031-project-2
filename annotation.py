@@ -18,6 +18,8 @@ def parse_cond(raw):
 
 
 def generate_comparison(dic):
+    for item in dic.items():
+        print("input", item)
     print("input", dic)
     annotations = {}
 
