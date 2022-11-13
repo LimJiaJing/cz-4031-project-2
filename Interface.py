@@ -37,7 +37,7 @@ container = ttk.Frame(rightside,width= 700,height =700)
 canvas = tk.Canvas(container,width=700,height =700)
 scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas,width= 700,height =700)
-w2 = tk.Label(scrollable_frame, text="annoation box")
+w2 = tk.Label(container, text="annotation box")
 w2.pack(pady=5)
 #update the canvas size to implement the scroll function
 scrollable_frame.bind(
