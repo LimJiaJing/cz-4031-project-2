@@ -261,6 +261,18 @@ def summarize_plans():
     for json_filename in json_filenames:
         print(f"{json_filename}\n")
     plans = []
+    # rearrange filenames
+    qep_index = json_filenames.find(f"clean_{QEP_FILENAME}")
+    qep_file = json_filenames.pop(qep_index)
+    json_filenames.insert(0, qep_file)
+    for i in range(len(json_filenames)):
+        if i == 0:
+            continue # skip qep
+        aqp_num = i
+        aqp_filename = f"clean_aqp_{aqp_num}.json"
+        aqp_index = json_filenames.find(aqp_filename)
+        aqp_file = json.filenames.pop(aqp_index)
+        json_filenames.insert(i, aqp_file)
 
     for json_filename in json_filenames:
         json_path = os.path.join(PLANS_DIRECTORY, json_filename)
@@ -306,7 +318,7 @@ def add_to_res(res, qep_summary, sql_summary, sql_key, qep_key):
         if "Seq Scan" in set([e[0] for e in qep_summary[qep_key]]):
             for e in qep_summary[qep_key]:
                 if e[0] == "Seq Scan":
-                    res[(sql_key, tuple(sql_summary[sql_key]))] = create_explanation(e)
+                    res[(sql_key, tuple(sql_summary[sql_key]))] = (create_explanation(e), e[-1])
                     break
         else:
             print("Not resolved")
