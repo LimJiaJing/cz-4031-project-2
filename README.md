@@ -24,11 +24,11 @@ pip install -r requirements.txt
 
 1. Launch terminal in project directory
 2. Type the following to run `project.py`
-```bash
+ ```bash
     python project.py
-```
-    or
-```bash
+ ```  
+   or
+ ```bash
     python3 project.py
-```  
+ ```  
 
