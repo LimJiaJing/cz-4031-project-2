@@ -10,7 +10,7 @@ This repository contains the implementation for Project 2 of "Database Systems P
 ```
 pip install -r requirements.txt
 ```
-#Two ways to run the program
+# Two ways to run the program
 1. Run the python file (project.py)
 2. Run in terminal
 
