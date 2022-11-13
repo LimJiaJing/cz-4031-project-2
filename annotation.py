@@ -25,48 +25,42 @@ def parse_cond(raw):
     return raw
 
 
-def generate_annotation(dic):
+def generate_comparison(dic):
     annotations = {}
 
-    joins = ["Hash Join", "Merge Join", "Index-based Join"]
-    scans = ["Seq Scan", "Index Scan", "Index Only Scan"]
-
     for pair in dic.items():
-        explanation = []
-        query_component = pair[0][0]
+        print("pair", pair)
         qep_tuple = pair[1][0]
+        if qep_tuple == None:
+            continue
+        explanation = []
         qep_algo, qep_cost = qep_tuple[0], qep_tuple[1]
-
-        if qep_algo in scans:
-            explanation.append("The table is read using {} with cost = {}.".format(qep_algo.lower(), qep_cost))
-        elif qep_algo in joins:
-            explanation.append("This join is implemented using {} with cost = {}.".format(qep_algo.lower(), qep_cost))
-        else:
-            explanation.append("This operation is implemented using {} with cost = {}.".format(qep_algo.lower(), qep_cost))
+        explanation.append(qep_algo)
 
         if len(pair[1]) == 1:
             explanation.append("There is no alternative way for this operation.")
         else:
             aqp_tuples = pair[1][1:]
-
-            # if qep_algo == "Seq Scan":
-            #     explanation.append("The table is read using sequential scan because no index is available.")
-            # el
             explanation.append(compare_plan(qep_tuple, aqp_tuples))
         # for aqp_tuple in pair[1][1:]:
         #     if qep_tuple[0] != aqp_tuple[0]:
         #         explanation.append(compare(qep_tuple, aqp_tuple))
-        annotations[pair[0][1]] = " ".join(explanation)
+        for id in pair[0][1]:
+            annotations[id] = " ".join(explanation)
     return annotations
 
 
 def compare_plan(qep_tuple, aqp_tuples):
-    qep_algo, qep_cost = qep_tuple[0], qep_tuple[1]
+    qep_algo, qep_cost = get_node_type(qep_tuple[0]), qep_tuple[1]
     explanation = []
     diff_algos = []
+    print("aqptuples", aqp_tuples)
+
 
     for aqp_tuple in aqp_tuples:
-        aqp_algo, aqp_cost = aqp_tuple[0], aqp_tuple[1]
+        if aqp_tuple == None:
+            continue
+        aqp_algo, aqp_cost = get_node_type(aqp_tuple[0]), aqp_tuple[1]
         if not qep_algo == aqp_algo and aqp_algo not in diff_algos:
             diff_algos.append(aqp_algo)
             if qep_cost < aqp_cost:
@@ -83,6 +77,17 @@ def compare_plan(qep_tuple, aqp_tuples):
         explanation.append("There is no alternative way for this operation.")
     return " ".join(explanation)
 
+def get_node_type(str):
+    joins = ["Hash Join", "Merge Join", "Index-based Join", "Nested Loop"]
+    scans = ["Seq Scan", "Index Scan", "Index Only Scan"]
+
+    for join in joins:
+        if join in str:
+            return join
+    for scan in scans:
+        if scan in str:
+            return scan
+    return "Error"
 
 def test_parsing(tree):
     join_cond = ["Merge Cond", "Hash Cond", "Index Cond"]
@@ -101,39 +106,6 @@ def test_parsing(tree):
             res = " ".join((node.tag, "on table", node.data["Relation Name"], "cost:", str(node.data["Total Cost"])))
         if res:
             print(res)
-
-
-def compare(tree1, tree2):
-    # l1 = [node.tag for node in tree1.all_nodes()]
-    # l2 = [node.tag for node in tree2.all_nodes()]
-    # l2.remove("Hash")
-    # print(l1)
-    # print(l2)
-    # d = DeepDiff(l1, l2)
-    # print(d["iterable_item_removed"])
-
-
-    print("---------------------------------------------------------------------")
-    for node1 in tree2.all_nodes():
-        res = []
-        for cond in join_cond:
-            if cond in node1.data.keys():
-                temp_cond = node1.data[cond].replace("(", "").replace(")", "")
-                for subcond in temp_cond.split(" AND "):
-                    res.append((node1.tag, cond, "condition:", parse_cond(subcond)))
-        if len(res) > 0:
-            print(node1.tag, cond, "condition:",res)
-        # if "Filter" in node1.data.keys():
-        #     node2 = [node.tag for node in tree2.all_nodes() if "Filter" in node.data.keys() and
-        #              node.data["Filter"].find(node1.data["Filter"]) != -1]
-        #     print("Scan approach: QEP",node1.tag, "AQP", node2[0])
-        #     print(node1.data["Filter"])
-        # if "Hash Cond" in node1.data.keys():
-        #     node2 = [node.tag for node in tree2.all_nodes() if "Hash Cond" in node.data.keys() and
-        #              node.data["Hash Cond"].find(node1.data["Hash Cond"]) != -1]
-        #     print("Hash join approach: QEP:",node1.tag, "AQP:", node2[0])
-        #     print(node1.data["Hash Cond"])
-
 
 def generate_operation_tree(plan):
     tree = Tree()
@@ -261,20 +233,6 @@ def summarize_plans():
     for json_filename in json_filenames:
         print(f"{json_filename}\n")
     plans = []
-    # rearrange filenames
-    qep_index = json_filenames.index(f"clean_{QEP_FILENAME}")
-    qep_file = json_filenames.pop(qep_index)
-    json_filenames.insert(0, qep_file)
-    for i in range(len(json_filenames)):
-        if i == 0:
-            continue # skip qep
-        aqp_num = i
-        aqp_filename = f"clean_aqp_{aqp_num}.json"
-        aqp_index = json_filenames.index(aqp_filename)
-        aqp_file = json_filenames.pop(aqp_index)
-        json_filenames.insert(i, aqp_file)
-    print("="*88)
-    print(json_filenames)
 
     for json_filename in json_filenames:
         json_path = os.path.join(PLANS_DIRECTORY, json_filename)
@@ -291,7 +249,8 @@ def summarize_plans():
         #     summarize_plan(plan, summary, 0, -1, None)
         plans.append(summary)
         print(f"Finish summarizing {json_filename}")
-
+    print("aqp",plans[-1])
+    print(json_filenames[-1])
     return plans
 
 
@@ -321,6 +280,7 @@ def add_to_res(res, qep_summary, sql_summary, sql_key, qep_key):
             for e in qep_summary[qep_key]:
                 if e[0] == "Seq Scan":
                     res[(sql_key, tuple(sql_summary[sql_key]))] = (create_explanation(e), e[-1])
+                    print("Res", res[(sql_key, tuple(sql_summary[sql_key]))])
                     break
         else:
             print("Not resolved")
@@ -430,6 +390,11 @@ def generate_annotation(sql):
                 raise Exception("Number of options in {sql_options[key]} does not match number of plans.")
 
         plan_index += 1
+    for item in sql_options.items():
+        print("Test", item)
+    for item in generate_comparison(sql_options).items():
+         print("compare", item)
+    print(generate_comparison(sql_options))
 
 if __name__ == "__main__":
     f = open("Queries&Json\\q2.sql", "r")
