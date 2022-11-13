@@ -18,9 +18,7 @@ def parse_cond(raw):
 
 
 def generate_comparison(dic):
-    for item in dic.items():
-        print("input", item)
-    print("input", dic)
+
     annotations = {}
 
     for pair in dic.items():
@@ -36,9 +34,7 @@ def generate_comparison(dic):
         else:
             aqp_tuples = pair[1][1:]
             explanation.append(compare_plan(qep_tuple, aqp_tuples))
-        # for aqp_tuple in pair[1][1:]:
-        #     if qep_tuple[0] != aqp_tuple[0]:
-        #         explanation.append(compare(qep_tuple, aqp_tuple))
+
         for id in pair[0][1]:
             annotations[id] = " ".join(explanation)
     return annotations
@@ -147,8 +143,8 @@ def summarize_plan(plan, summary, depth, cost, parent_node_type):
                 add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key)
             else:
                 add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key)
-                # duplicates.append(arg.strip())
     node_type = plan["Node Type"]
+
     # keys to annotate are relations
     if node_type in SCANS:
         if plan["Relation Name"] in plan["Alias"]:
@@ -159,7 +155,6 @@ def summarize_plan(plan, summary, depth, cost, parent_node_type):
             add_to_summary(summary, plan, parent_node_type, key, depth, cost, node_type)
         else:
             add_to_summary(summary, plan, parent_node_type, key, depth, cost, node_type)
-            # duplicates.append(key.strip())
 
 
 def add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key):
@@ -192,9 +187,7 @@ def add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key):
     # create empty list if new key
     if arg.strip() not in list(summary):
         summary[arg.strip()] = []
-    print(parent_node_type, child)
     # check if this condition is fulfilled using an index join
-    print(is_index_join(child, parent_node_type))
     if (is_index_join(child, parent_node_type)) and ((json_key == "Index Cond") or (json_key == "Filter")):
         if (join_algo == "Index Scan"):
             join_algo = "Index Join"
@@ -213,6 +206,7 @@ def is_index_join(child, parent):
         return True
     else:
         return False
+
 def summarize_plans():
     json_filenames = [f for f in os.listdir(PLANS_DIRECTORY) if (
         (os.path.isfile(os.path.join(PLANS_DIRECTORY, f)))
@@ -222,9 +216,9 @@ def summarize_plans():
     if f"clean_{QEP_FILENAME}" not in json_filenames:
         raise Exception("No QEP file found")
     print(f"There are {len(json_filenames)-1} AQPs found.")
-    for json_filename in json_filenames:
-        print(f"{json_filename}\n")
+
     plans = []
+
     # rearrange filenames
     qep_index = json_filenames.index(f"clean_{QEP_FILENAME}")
     qep_file = json_filenames.pop(qep_index)
@@ -237,8 +231,7 @@ def summarize_plans():
         aqp_index = json_filenames.index(aqp_filename)
         aqp_file = json_filenames.pop(aqp_index)
         json_filenames.insert(i, aqp_file)
-    print("=" * 88)
-    print(json_filenames)
+
 
     for json_filename in json_filenames:
         json_path = os.path.join(PLANS_DIRECTORY, json_filename)
@@ -251,7 +244,6 @@ def summarize_plans():
             summary[k] = [*set(v)]
         plans.append(summary)
         print(f"Finish summarizing {json_filename}")
-        print("="*100)
     return plans
 
 
@@ -263,11 +255,7 @@ def longest_common_substring(candidates, string, threshold):
     common_substring = None
     for e, e_refined in candidates:
         match = SequenceMatcher(None, e_refined, string).find_longest_match()
-        if match.size == longest_match_size:
-            print(string)
-            print(e_refined)
-            print(chosen, common_substring)
-            print(f"SAME SUBSTRING LEN {match.size}\n")
+
         if match.size > longest_match_size:
             longest_match_size = match.size
             chosen = e
@@ -282,14 +270,12 @@ def add_to_res(res, qep_summary, sql_summary, sql_key, qep_key):
                 if e[0] == "Seq Scan":
                     res[(sql_key, tuple(sql_summary[sql_key]))] = (create_explanation(e), e[-1])
                     break
-        else:
-            print("Not resolved")
 
     else:
         res[(sql_key, tuple(sql_summary[sql_key]))] = (create_explanation(qep_summary[qep_key][0]), qep_summary[qep_key][0][-1])
 
 def create_explanation(info):
-    # (algorithm, index_key, relation, cond, join_algo, cost)
+    # input: info = [algorithm, index_key, relation, cond, join_algo, cost]
     algo, key, relation, cond, join_algo, cost = info
     # index join filter
     if (algo == "Index Join") and cond != None:
@@ -312,7 +298,6 @@ def create_explanation(info):
     elif (algo == "Seq Scan"):
         return f"Read using {algo}."
     else:
-        print(info)
         return "Unresolved"
 
 def match_plan(plan, sql_summary):
@@ -355,15 +340,6 @@ def match_plan(plan, sql_summary):
         else:
             missing_keys_cleaned.append(key)
 
-    # if len(missing_keys_cleaned) > 0:
-    #     print("missing keys:")
-    # for key in missing_keys_cleaned:
-    #     print(key)
-    # print(f"Number of keys missing, sql -> json = {len(missing_keys_cleaned)}")
-
-    # for k, v in res.items():
-    #     print(f"{k}:{v}")
-
     return res
 
 
@@ -390,10 +366,7 @@ def generate_annotation(sql):
                 raise Exception("Number of options in {sql_options[key]} does not match number of plans.")
 
         plan_index += 1
-    # for item in sql_options.items():
-    #     print("Test", item)
-    # for item in generate_comparison(sql_options).items():
-    #      print("compare", item)
+
     return generate_comparison(sql_options)
 
 if __name__ == "__main__":

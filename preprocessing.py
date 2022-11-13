@@ -39,16 +39,9 @@ FILTERS = ["Filter", "Join Filter"]
 def parse_sql(raw):
     query = sqlparse.format(raw.strip(), strip_comments=True,
                             reindent=True, keyword_case="upper")
-    # print(query)
     query_list = [line.strip() for line in query.split("\n")]
 
-    '''
-    sql_to_level_mapping = {
-        line: [index_0, index_1, ..., index_n]
-    }
-    '''
-    # sql_to_level_mapping = get_sql_to_level_mapping(query_list)
-    # print_sql_to_level_mapping(sql_to_level_mapping)
+
     return get_sql_to_level_mapping(query_list)
 
 
@@ -250,9 +243,7 @@ def query_asker():
             query = f"{query}\n{newline}"
         else:
             break
-    # print("Finished reading query.\n")
-    # print("Generating QEP and AQP(s).\n")
-    #modified_query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
+
     query = sqlparse.format(query.strip(), strip_comments=True,
                     reindent=True, keyword_case="upper")
     return query
@@ -285,77 +276,33 @@ def generate_operation_list(plan):
 
 
 def conditions_generator(operation_list, input_string):
-    # The following was not added as of yet
-    # enable_async_append (boolean)
-    # enable_incremental_sort (boolean)
-    # enable_tidscan (boolean)
-    # enable_parallel_append (boolean)
-    # enable_parallel_hash (boolean)
-    # enable_partition_pruning (boolean)
-    # enable_partitionwise_join (boolean)
-    # enable_partitionwise_aggregate (boolean)
 
     list_of_AQP_Queries = []
     list_of_disables = []
     count = 1
     for i in operation_list:
-        # Gather not in because i dont know where to pu
-        # not sure about hash/aggregate
-        # if i == "Hash" or i == "Aggregate":
-        #     modified_string="SET enable_hashagg TO off;\n"+input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #       list_of_AQP_Queries.append(modified_string)
-        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
-        #       count+=1
+
         if i == "Hash Join":
             modified_string = "SET enable_hashjoin TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
-        # elif i == "Bitmap Heap Scan" or i == "Bitmap Index Scan":
-        #     modified_string = "SET enable_bitmapscan TO off;\n" + input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #         list_of_AQP_Queries.append(modified_string)
-        #         list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
-        #         count += 1
-        # elif i == "Seq Scan":
-        #     modified_string="SET enable_seqscan TO off;\n"+input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #       list_of_AQP_Queries.append(modified_string)
-        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
-        #       count+=1
-        # elif i == "Index Only Scan":
-        #     modified_string = "SET enable_indexonlyscan TO off;\n" + input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #         list_of_AQP_Queries.append(modified_string)
-        #         list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
-        #         count += 1
+
         elif i == "Index Scan":
             modified_string = "SET enable_indexscan TO off;\n" + "SET enable_bitmapscan TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
-        # elif i == "Materialize":
-        #     modified_string="SET enable_material TO off;\n"+input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #       list_of_AQP_Queries.append(modified_string)
-        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
-        #       count+=1
-        # elif i == "Sort":
-        #     modified_string="SET enable_sort TO off;\n"+input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #       list_of_AQP_Queries.append(modified_string)
-        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
-        #       count+=1
+
         elif i == "Nested Loop":
             modified_string = "SET enable_nestloop TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
-        # not sure about gather merge
+                
         elif i == "Merge Join":
             modified_string = "SET enable_mergejoin TO off;\n" + input_string
             if modified_string not in list_of_AQP_Queries:
@@ -368,13 +315,7 @@ def conditions_generator(operation_list, input_string):
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
-        # elif i == "Memoize":
-        #     modified_string = "SET enable_memoize TO off;\n"+input_string
-        #     if modified_string not in list_of_AQP_Queries:
-        #       list_of_AQP_Queries.append(modified_string)
-        #       list_of_disables.append("AQP{0} has {1} disabled\n".format(count,i))
-        #       count+=1
-        # print(temp_input_string)
+
     aqp_info_filename = "aqp_info.txt"
     aqp_info_path = os.path.join(PLANS_DIRECTORY, aqp_info_filename)
     with open(aqp_info_path, "w") as f:
