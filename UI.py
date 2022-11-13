@@ -6,24 +6,10 @@ window.title('My Window')
 window.geometry('800x900')  
 leftside = tk.Frame(window)
 rightside = tk.Frame(window)
-#login part of the program
-login = tk.Frame(window)
-#necessary infomation for login
-Info = tk.Text(login,height = 4, width = 80,font=("Courier", 12, "italic"),background='gray')
-Username= tk.Entry(login, width=50)
-Pw = tk.Entry(login, width = 50)
-Name_of_database =tk.Entry(login, width=50)
-Infomation = "pls enter you SQL username, password and the name of the database\n  first line for username \n second line for username \n third line for database name"
-Info.insert(tk.INSERT, Infomation)
-login.pack(pady=5)
-Info.pack(pady=5)
-Username.pack(pady=5)
-Pw.pack(pady=5)
-Name_of_database.pack(pady=5)
-logbutton=tk.Button(login, text='login')
+
 
 # create a Textbox to accept query in put
-frame = tk.Frame(window, height=1000,width=700)
+frame = tk.Frame(leftside, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
 S1.pack(side=tk.RIGHT,fill='y')
 text = tk.Text(frame,height=40,width=100)
@@ -33,15 +19,15 @@ text.pack()
 frame.pack()
 #create atwo button
 #create a abutton to submit the query
-button = tk.Button(window,text='submit')
+button = tk.Button(leftside, text='submit')
 
 #one button to clear the current annoation
-button1=tk.Button(window,text='clear')
+button1=tk.Button(leftside, text='clear')
 button.pack( pady=5)
 button1.pack( pady=5)
 
 #A scrollableframe for the annoation
-container = ttk.Frame(window,width= 700,height =700)
+container = ttk.Frame(rightside,width= 700,height =700)
 canvas = tk.Canvas(container,width=700,height =700)
 scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas,width= 700,height =700)
@@ -56,7 +42,7 @@ scrollable_frame.bind(
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
-logbutton.pack(pady=5)
+
 
 # Function for submit buton
 def get():
@@ -88,22 +74,14 @@ def clear():
         query.destroy()
     button["state"]="normal"
 
-def loginfunction():
-   User = Username.get()
-   if User == '123':
-     button.config(command=get)
-     button1.config(command=clear)
-     print(User)
-   else:
-     newWindow = tk.Toplevel(window)
-     newWindow.geometry("360x200")
-     labelExample = tk.Label(newWindow, text = "failed to login", font=("Courier", 12, "italic"))
+def queryget():
+    query_content = text.get()
+    return query_content
 
-     labelExample.place(x=90, y=70)
-logbutton.config(command=loginfunction)
 container.pack()
 canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
-
+button.config(command=get)
+button1.config(command=clear)
 #continuing refresh the window
 window.mainloop()
