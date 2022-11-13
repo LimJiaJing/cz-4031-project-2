@@ -19,13 +19,15 @@ JSON_KEYS_TO_KEEP = [
     "Join Filter",
     "Index Name",
 ]
+
 JOIN_CONDS = [
     "Hash Cond",
     "Merge Cond",
     "Index Cond",
-    "Join Filter",
 ]
+
 FILTERS = ["Filter", "Join Filter"]
+
 
 def connect():
     # login instructions
@@ -80,7 +82,6 @@ def qep_generator(database_conn, query):
     data = cursor.fetchall()
     json_object = json.dumps(data, indent=4)
     # Writing to sample.json
-    create_dir(PLANS_DIRECTORY)
     qep_path = os.path.join(PLANS_DIRECTORY, QEP_FILENAME)
     with open(qep_path, "w") as f:
         f.write(json_object)
@@ -152,7 +153,7 @@ def conditions_generator(operation_list, input_string):
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
                 count += 1
         elif i == "Index Scan":
-            modified_string = "SET enable_indexscan TO off;\n" + temp_input_string
+            modified_string = "SET enable_indexscan TO off;\n" + "SET enable_bitmapscan TO off;\n" + temp_input_string
             if modified_string not in list_of_AQP_Queries:
                 list_of_AQP_Queries.append(modified_string)
                 list_of_disables.append("AQP{0} has {1} disabled\n".format(count, i))
@@ -219,14 +220,17 @@ def aqp_generator(database_conn, query):
         # output to file
         aqp_filename = f"aqp_{i+1}.json"
         aqp_path = os.path.join(PLANS_DIRECTORY, aqp_filename)
-        with open(aqp_filename, "w") as f:
+        with open(aqp_path, "w") as f:
             f.write(json_object)
             print(f"AQP {i+1} is generated and written to {aqp_path}")
 
 
-def create_dir(path):
+def initialize_dir(path):
     if not os.path.exists(path):
         os.makedirs(path)
+    else:
+        for f in os.listdir(path):
+            os.remove(os.path.join(path, f))
 
 def read_json(path):
     f = open(path)
@@ -284,7 +288,12 @@ def parse_cond(raw):
     return raw
 
 def clean_json_files():
-    json_filenames = [f for f in os.listdir(PLANS_DIRECTORY) if (os.path.isfile(os.path.join(PLANS_DIRECTORY, f)) and f[-4:] == "json")]
+    json_filenames = [f for f in os.listdir(PLANS_DIRECTORY) if (
+            (os.path.isfile(os.path.join(PLANS_DIRECTORY, f)) and
+             f[-4:] == "json") and
+            ("clean" not in f)
+    )
+                      ]
     for json_filename in json_filenames:
         json_path = os.path.join(PLANS_DIRECTORY, json_filename)
         plan = read_json(json_path)[0][0][0]["Plan"]
@@ -303,6 +312,7 @@ def run_preprocessing():
     tables = start[1]
     # print(tables)
 # <<<<<<< Updated upstream
+    initialize_dir(PLANS_DIRECTORY)
     query = query_asker()
     qep_generator(conn, query)
     aqp_generator(conn, query)
