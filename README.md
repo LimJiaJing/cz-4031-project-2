@@ -28,6 +28,7 @@ pip install -r requirements.txt
     python project.py
 ```
     or
+    
 ```bash
     python3 project.py
 ```  
