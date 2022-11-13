@@ -4,29 +4,32 @@ from preprocessing import parse_sql
 
 window = tk.Tk()
 window.title('My Window')
-window.geometry('800x900')
+window.geometry('1500x900')
 
+leftside = tk.Frame(window)
+rightside = tk.Frame(window)
+leftside.grid(row=0,column=0)
+rightside.grid(row=0,column=1)
 # create a Textbox to accept query in put
-frame = tk.Frame(window, height=1000,width=700)
+frame = tk.Frame(leftside, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
 S1.pack(side=tk.RIGHT,fill='y')
 text = tk.Text(frame,height=40,width=100)
-text.get()
 S1.config(command=text.yview)
 text.configure(yscrollcommand=S1.set)
 text.pack()
 frame.pack()
 #create atwo button
 #create a abutton to submit the query
-button = tk.Button(window, text='submit')
+button = tk.Button(leftside, text='submit')
 
 #one button to clear the current annoation
-button1=tk.Button(window, text='clear')
+button1=tk.Button(leftside, text='clear')
 button.pack( pady=5)
 button1.pack( pady=5)
 
 #A scrollableframe for the annoation
-container = ttk.Frame(window,width= 700,height =700)
+container = ttk.Frame(rightside,width= 700,height =700)
 canvas = tk.Canvas(container,width=700,height =700)
 scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas,width= 700,height =700)
@@ -45,7 +48,10 @@ canvas.configure(yscrollcommand=scrollbar.set)
 
 # Function for submit buton
 def get():
-     anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
+     query = preprocessing.query_asker()
+     preprocessing.run_preprocessing(query)
+     anno=annotation.generate_annotation(query)
+    #  anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
      raw=text.get()
      text_content = sqlparse.format(raw.strip(), strip_comments=True,
                              reindent=True, keyword_case="upper")
@@ -78,9 +84,7 @@ def clear():
 
 def queryget():
     query_content = text.get()
-    query = sqlparse.format(query_content.strip(), strip_comments=True,
-                            reindent=True, keyword_case="upper")
-    return query
+    return query_content
 
 container.pack()
 canvas.pack(side="left", fill="both", expand=True)
