@@ -18,6 +18,7 @@ def parse_cond(raw):
 
 
 def generate_comparison(dic):
+    print("input", dic)
     annotations = {}
 
     for pair in dic.items():
@@ -222,6 +223,20 @@ def summarize_plans():
     for json_filename in json_filenames:
         print(f"{json_filename}\n")
     plans = []
+    # rearrange filenames
+    qep_index = json_filenames.index(f"clean_{QEP_FILENAME}")
+    qep_file = json_filenames.pop(qep_index)
+    json_filenames.insert(0, qep_file)
+    for i in range(len(json_filenames)):
+        if i == 0:
+            continue  # skip qep
+        aqp_num = i
+        aqp_filename = f"clean_aqp_{aqp_num}.json"
+        aqp_index = json_filenames.index(aqp_filename)
+        aqp_file = json_filenames.pop(aqp_index)
+        json_filenames.insert(i, aqp_file)
+    print("=" * 88)
+    print(json_filenames)
 
     for json_filename in json_filenames:
         json_path = os.path.join(PLANS_DIRECTORY, json_filename)
@@ -382,4 +397,4 @@ def generate_annotation(sql):
 if __name__ == "__main__":
     f = open("Queries&Json\\q2.sql", "r")
     sql = f.read()
-    generate_annotation(sql)
+    print("test", generate_annotation(sql))
