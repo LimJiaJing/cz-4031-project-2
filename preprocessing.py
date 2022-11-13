@@ -375,7 +375,7 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
 def connect():
     # login instructions
     username = "postgres"
-    password = "190621"
+    password = "cz4031group34"
     database = "TPC-H"
     login_data = f"dbname={database} user={username} password={password}"
     conn = None
@@ -403,7 +403,6 @@ def connect():
         table_cols[i] = column
     return conn, table_cols
 
-
 def query_asker():
     query = ""
     print("Please key in your Query:")
@@ -413,11 +412,12 @@ def query_asker():
             query = f"{query}\n{newline}"
         else:
             break
-    print("Finished reading query.\n")
-    print("Generating QEP and AQP(s).\n")
-    modified_query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
-    return modified_query
-
+    # print("Finished reading query.\n")
+    # print("Generating QEP and AQP(s).\n")
+    #modified_query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
+    query = sqlparse.format(query.strip(), strip_comments=True,
+                    reindent=True, keyword_case="upper")
+    return query
 
 def qep_generator(database_conn, query):
     cursor = database_conn.cursor()
@@ -675,4 +675,5 @@ def run_preprocessing(query):
 #         # aqp_generator(conn, query_string)
 # >>>>>>> Stashed changes
 if __name__ == "__main__":
-    run_preprocessing()
+    input_query = query_asker()
+    run_preprocessing(input_query)

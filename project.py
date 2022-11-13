@@ -2,21 +2,6 @@ import preprocessing
 import annotation
 import sqlparse
 
-def query_asker():
-    query = ""
-    print("Please key in your Query:")
-    while True:
-        newline = input().rstrip()
-        if newline:
-            query = f"{query}\n{newline}"
-        else:
-            break
-    # print("Finished reading query.\n")
-    # print("Generating QEP and AQP(s).\n")
-    #modified_query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
-    query = sqlparse.format(query.strip(), strip_comments=True,
-                    reindent=True, keyword_case="upper")
-    return query
 # import UI
 # import tkinter as tk
 # from tkinter import ttk
@@ -67,6 +52,6 @@ def query_asker():
 # window.mainloop()
 
 
-query = query_asker()
+query = preprocessing.query_asker()
 preprocessing.run_preprocessing(query)
 print(annotation.generate_annotation(query))
