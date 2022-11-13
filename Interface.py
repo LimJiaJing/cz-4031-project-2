@@ -50,13 +50,13 @@ canvas.configure(yscrollcommand=scrollbar.set)
 
 # Function for submit buton
 def get():
-     query = preprocessing.query_asker()
-     preprocessing.run_preprocessing(query)
-     anno=annotation_comp.generate_annotation(query)
-    #  anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
-     raw=text.get()
+     raw=text.get("1.0", 'end')
      text_content = sqlparse.format(raw.strip(), strip_comments=True,
                              reindent=True, keyword_case="upper")
+     preprocessing.run_preprocessing(text_content)
+     anno=annotation_comp.generate_annotation(text_content)
+    #  anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
+     
      text_array = (text_content.replace(" ","")).split("\n")
      text_array.pop()
      x=len(text_array)
