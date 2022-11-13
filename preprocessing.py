@@ -6,6 +6,12 @@ from collections import defaultdict
 import sqlparse
 import re
 
+#USER INPUT Details
+USERNAME = "postgres"
+PASSWORD = "cz4031group34"
+DATABASE_NAME = "TPC-H"
+
+
 QEP_FILENAME = "qep.json"
 PLANS_DIRECTORY = "generated_plans"
 JSON_KEYS_TO_KEEP = [
@@ -205,10 +211,7 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
 
 def connect():
     # login instructions
-    username = "postgres"
-    password = "2312eqwqrw"
-    database = "TPC-H"
-    login_data = f"dbname={database} user={username} password={password}"
+    login_data = f"dbname={DATABASE_NAME} user={USERNAME} password={PASSWORD}"
     conn = None
 
     print('Connecting to the PostgreSQL database...')
