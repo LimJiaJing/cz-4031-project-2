@@ -68,7 +68,7 @@ def get():
         query.insert(tk.INSERT,y)
         query.pack()
         #generate a Textbox for annoation
-        annotation=tk.Text(scrollable_frame,height=2,width=100,background="gray" )
+        annotation=tk.Text(scrollable_frame,height=4,width=100,background="gray", wrap=tk.WORD)
         annotation.configure(font=("Courier", 12, "italic"))
         anno_content=anno.get(i,"no annotation")
         annotation.insert(tk.INSERT, anno_content)
