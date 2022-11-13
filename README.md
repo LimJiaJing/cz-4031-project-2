@@ -5,6 +5,7 @@ This repository contains the implementation for Project 2 of "Database Systems P
 
 1. Extract files from zip file `cz4031-project-2.zip`  
 2. Enter directory `cz4031-project-2`
+3. Python version >= 3.9
 
 # Install dependencies
 ```
