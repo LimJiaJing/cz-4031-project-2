@@ -1,7 +1,8 @@
 import preprocessing
 import annotation
-import sqlparse
+import os
 
+os.system('python Interface.py')
 # import UI
 # import tkinter as tk
 # from tkinter import ttk
