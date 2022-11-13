@@ -2,9 +2,7 @@
 
 from treelib import Node, Tree
 from deepdiff import DeepDiff
-import json
 import re
-import preprocessing
 from preprocessing import read_json
 from preprocessing import PLANS_DIRECTORY, JOIN_CONDS, FILTERS, QEP_FILENAME
 import os
@@ -96,8 +94,6 @@ def test_parsing(tree):
                     res = " ".join((cond_dic[cond], "join condition:", parse_cond(subcond), "cost:", str(node.data["Total Cost"])))
         elif node.tag in scans:
             res = " ".join((node.tag, "on table", node.data["Relation Name"], "cost:", str(node.data["Total Cost"])))
-        if res:
-            print(res)
 
 def generate_operation_tree(plan):
     tree = Tree()
@@ -169,7 +165,7 @@ def add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key):
     relation_name = None
     cond = None
     join_algo = None
-
+   
     # if the key is from a filter, we want to know based on what is it filtered from
     if (json_key in FILTERS) and (len(set(JOIN_CONDS).intersection(list(plan))) == 1):
         join_algo = plan["Node Type"]
@@ -193,9 +189,10 @@ def add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key):
     # create empty list if new key
     if arg.strip() not in list(summary):
         summary[arg.strip()] = []
-
+    print(parent_node_type, child)
     # check if this condition is fulfilled using an index join
-    if is_index_join(child, parent_node_type) and (json_key == "Index Cond" or json_key == "Filter"):
+    print(is_index_join(child, parent_node_type))
+    if (is_index_join(child, parent_node_type)) and ((json_key == "Index Cond") or (json_key == "Filter")):
         if (join_algo == "Index Scan"):
             join_algo = "Index Join"
         summary[arg.strip()].append(
@@ -209,7 +206,7 @@ def add_to_summary(summary, plan, parent_node_type, arg, depth, cost, json_key):
 
 
 def is_index_join(child, parent):
-    if (child, parent) == INDEX_JOIN_CP:
+    if [child, parent] == INDEX_JOIN_CP:
         return True
     else:
         return False
@@ -235,14 +232,9 @@ def summarize_plans():
         summarize_plan(plan, summary, 0, cost, None)
         for k, v in summary.items():
             summary[k] = [*set(v)]
-        # except KeyError:
-        #     print(plan.keys())
-        #     print(f"No 'Total Cost' key in {json_filename[:-5]}")
-        #     summarize_plan(plan, summary, 0, -1, None)
         plans.append(summary)
         print(f"Finish summarizing {json_filename}")
-    print("aqp",plans[-1])
-    print(json_filenames[-1])
+        print("="*100)
     return plans
 
 
@@ -272,7 +264,6 @@ def add_to_res(res, qep_summary, sql_summary, sql_key, qep_key):
             for e in qep_summary[qep_key]:
                 if e[0] == "Seq Scan":
                     res[(sql_key, tuple(sql_summary[sql_key]))] = (create_explanation(e), e[-1])
-                    print("Res", res[(sql_key, tuple(sql_summary[sql_key]))])
                     break
         else:
             print("Not resolved")
@@ -347,14 +338,14 @@ def match_plan(plan, sql_summary):
         else:
             missing_keys_cleaned.append(key)
 
-    if len(missing_keys_cleaned) > 0:
-        print("missing keys:")
-    for key in missing_keys_cleaned:
-        print(key)
-    print(f"Number of keys missing, sql -> json = {len(missing_keys_cleaned)}")
+    # if len(missing_keys_cleaned) > 0:
+    #     print("missing keys:")
+    # for key in missing_keys_cleaned:
+    #     print(key)
+    # print(f"Number of keys missing, sql -> json = {len(missing_keys_cleaned)}")
 
-    for k, v in res.items():
-        print(f"{k}:{v}")
+    # for k, v in res.items():
+    #     print(f"{k}:{v}")
 
     return res
 
