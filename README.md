@@ -38,15 +38,12 @@ pip install -r requirements.txt
  ```  
 # MANUAL FOR OUR PROGRAM
 
-Before running project.py, the User should first open preprocessing.py and edit their User Login Details frome lines 9-12 for their Postgres Database as shown below.
-
+1. Before running project.py, the User should first open preprocessing.py and edit their User Login Details from lines 9-12 for their Postgres Database.
 		
-After running project.py the program will first ask the user to input the following details: Username, Password and name of Database for the initial connection to be made
+2. After running project.py the program will first ask the user to input their sql query on the left side of the UI as shown below and press submit.
 
-After connecting, User can input their sql query on the left side of the UI as shown below and press submit.
+4. After pressing submit the UI will display the output formatted query and the annotations on the right side of the UI.
 
-After pressing submit the UI will display the output formatted query and the annotations on the right side of the UI  as shown below.21
-
-Before type in the new query, please click the clear button to clear the current output and query in the input box.
+5. Before type in the new query, please click the clear button to clear the current output and query in the input box.
             
 
