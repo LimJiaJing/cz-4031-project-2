@@ -262,7 +262,7 @@ def summarize_plans():
         print(f"{json_filename}\n")
     plans = []
     # rearrange filenames
-    qep_index = json_filenames.find(f"clean_{QEP_FILENAME}")
+    qep_index = json_filenames.index(f"clean_{QEP_FILENAME}")
     qep_file = json_filenames.pop(qep_index)
     json_filenames.insert(0, qep_file)
     for i in range(len(json_filenames)):
@@ -270,9 +270,11 @@ def summarize_plans():
             continue # skip qep
         aqp_num = i
         aqp_filename = f"clean_aqp_{aqp_num}.json"
-        aqp_index = json_filenames.find(aqp_filename)
-        aqp_file = json.filenames.pop(aqp_index)
+        aqp_index = json_filenames.index(aqp_filename)
+        aqp_file = json_filenames.pop(aqp_index)
         json_filenames.insert(i, aqp_file)
+    print("="*88)
+    print(json_filenames)
 
     for json_filename in json_filenames:
         json_path = os.path.join(PLANS_DIRECTORY, json_filename)
