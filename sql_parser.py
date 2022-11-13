@@ -165,8 +165,8 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
     regex = re.compile(r'(.*) (>|<|>=|<=) (.*)')
     if re.match(regex, key):
         try:
-            result = str(eval(re.match(regex, key).groups()[2]))
-            if re.search(r'+|-|*|/', result):
+            if re.search(r'\+|\-|\*|\/', key):
+                result = str(eval(re.match(regex, key).groups()[2]))
                 key = re.sub(regex, r'\1 \2 ' + result, key)
         except:
             pass
