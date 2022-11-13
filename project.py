@@ -14,6 +14,8 @@ def query_asker():
     # print("Finished reading query.\n")
     # print("Generating QEP and AQP(s).\n")
     #modified_query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
+    query = sqlparse.format(query.strip(), strip_comments=True,
+                    reindent=True, keyword_case="upper")
     return query
 # import UI
 # import tkinter as tk
@@ -66,6 +68,5 @@ def query_asker():
 
 
 query = query_asker()
-#preprocessing.run_preprocessing(query)
-print(annotation.generate_annotation(sqlparse.format(query.strip(), strip_comments=True,
-                            reindent=True, keyword_case="upper")))
+preprocessing.run_preprocessing(query)
+print(annotation.generate_annotation(query))

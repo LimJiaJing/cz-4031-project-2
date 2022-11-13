@@ -8,12 +8,170 @@ import preprocessing
 from preprocessing import read_json
 from preprocessing import PLANS_DIRECTORY, JOIN_CONDS, FILTERS, QEP_FILENAME
 import os
-from sql_parser import parse_sql
+from preprocessing import parse_sql
 from difflib import SequenceMatcher
 
 INDEX_JOIN_CP = ["Index Scan", "Nested Loop"]
 SCANS = ["Index Scan", "Seq Scan"]
 
+# match##########################
+qep_summary = {
+    "customer": [
+        [
+            "Index Scan",
+            "customer_pkey",
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "l_returnflag = 'R'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "lineitem": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "o_orderdate >= '1993-02-01'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "o_orderdate < '1993-05-01 00:00:00'": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "orders": [
+        [
+            "Seq Scan",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "l_orderkey = o_orderkey": [
+        [
+            "Hash Join",
+            None,
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "n_nationkey = c_nationkey": [
+        [
+            "Index Scan",
+            "nation_pkey",
+            "nation",
+            None,
+            None,
+            253432.21
+        ]
+    ],
+    "nation": [
+        [
+            "Index Scan",
+            "nation_pkey",
+            None,
+            None,
+            None,
+            253432.21
+        ]
+    ]
+}
+f = open("Queries&Json\\q10.sql", "r")
+sql = f.read()
+f.close()
+
+
+def longest_common_substring(candidates, string, threshold):
+    if len(candidates) == 0:
+        return None
+    longest_match_size = threshold
+    chosen = None
+    common_substring = None
+    for e, e_refined in candidates:
+        match = SequenceMatcher(None, e_refined, string).find_longest_match()
+        if match.size == longest_match_size:
+            print(string)
+            print(e_refined)
+            print(chosen, common_substring)
+            print(f"SAME SUBSTRING LEN {match.size}\n")
+        if match.size > longest_match_size:
+            longest_match_size = match.size
+            chosen = e
+            common_substring = string[match.b:match.b+match.size]
+
+    return chosen
+
+def add_to_res(qep_summary, sql_summary, sql_key, qep_key):
+    if len(qep_summary[qep_key]) > 1:
+        if "Seq Scan" in set([e[0] for e in qep_summary[qep_key]]):
+            for e in qep_summary[qep_key]:
+                if e[0] == "Seq Scan":
+                    res[(sql_key, tuple(sql_summary[sql_key]))] = create_explanation(e)
+                    break
+        else:
+            print("Not resolved")
+
+    else:
+        res[(sql_key, tuple(sql_summary[sql_key]))] = create_explanation(qep_summary[qep_key][0])
+
+def create_explanation(info):
+    # (algorithm, index_key, relation, cond, join_algo, cost)
+    algo, key, relation, cond, join_algo, cost = info
+    # index join filter
+    if (algo == "Index Join") and cond != None:
+        return f"Filtered from the results of {algo} on '{cond}'. " \
+               f"The {algo} used  relation '{relation}' index key '{key}'."
+    # hash join filter
+    elif (algo == "Hash Join") and cond != None:
+        return f"Filtered from the results of {algo} on '{cond}'."
+    # index join
+    elif (algo == "Index Join"):
+        return f"Join using {algo}." \
+               f"The {algo} used relation '{relation}' index key '{key}'."
+    # nested loop join, hash join
+    elif (algo == "Nested Loop") or (algo == "Hash Join"):
+        return f"Join using {algo}."
+    # table read using index scan
+    elif (algo == "Index Scan") and (cond == None):
+        return f"Read using {algo} with index key '{key}'."
+    # table read using sequential scan
+    elif (algo == "Seq Scan"):
+        return f"Read using {algo}."
+    else:
+        print(info)
+        return "Unresolved"
+##########################################
 # def read_json(path):
 #     f = open(path)
 #     res = json.load(f)
@@ -29,7 +187,6 @@ def generate_comparison(dic):
     annotations = {}
 
     for pair in dic.items():
-        print("pair", pair)
         qep_tuple = pair[1][0]
         if qep_tuple == None:
             continue
@@ -54,7 +211,6 @@ def compare_plan(qep_tuple, aqp_tuples):
     qep_algo, qep_cost = get_node_type(qep_tuple[0]), qep_tuple[1]
     explanation = []
     diff_algos = []
-    print("aqptuples", aqp_tuples)
 
 
     for aqp_tuple in aqp_tuples:
@@ -390,58 +546,13 @@ def generate_annotation(sql):
                 raise Exception("Number of options in {sql_options[key]} does not match number of plans.")
 
         plan_index += 1
-    for item in sql_options.items():
-        print("Test", item)
-    for item in generate_comparison(sql_options).items():
-         print("compare", item)
-    print(generate_comparison(sql_options))
+    # for item in sql_options.items():
+    #     print("Test", item)
+    # for item in generate_comparison(sql_options).items():
+    #      print("compare", item)
+    return generate_comparison(sql_options)
 
 if __name__ == "__main__":
     f = open("Queries&Json\\q2.sql", "r")
     sql = f.read()
     generate_annotation(sql)
-
-
-    #########################################################
-    # test_dic = {("p_key = r_key", 2): [("Index-based Join", 10), ("Merge Join", 200), ("Hash Join", 3000)],
-    #             ("part", 10): [("Index Scan", 2), ("Seq Scan", 100)],
-    #             ("region", 3): [("Seq Scan", 100), ("Seq Scan", 100)],
-    #             ("nation", 1): [("Seq Scan", 100), ("Index Scan", 2)],
-    #             ("lineitem", 33): [("Seq Scan", 100)],
-    #             ("sum(p_size)", 5): [("Aggregate", 10)]}
-    # for item in generate_annotation(test_dic).items():
-    #     print(item)
-    # print(generate_annotation(test_dic))
-    # test_dic1 = {}
-    #
-    #
-    # start = preprocessing.connect()
-    # conn = start[0]
-    # tables = start[1]
-    # # print(tables)
-    # query_string = preprocessing.query_asker()
-    # preprocessing.QEP_Generator(conn, query_string)
-    # preprocessing.AQP_generator(conn, query_string)
-    # print("?")
-    # test = read_json("QEP.json")
-    # test1 = read_json("AQP4.json")
-    # test2 = read_json("temp.json")
-    # print(test)
-    # tree1 = generate_operation_tree(test[0][0][0]["Plan"])
-    # tree1.show()
-    # tree2 = generate_operation_tree(test1[0][0][0]["Plan"])
-    # tree2.show()
-    # tree3 = generate_operation_tree(test2[0][0][0]["Plan"])
-    # tree3.show()
-    # test_parsing(tree1)
-    # print("---------------------------------------------")
-    # test_parsing(tree2)
-    #####################
-    # str = "a = b"
-    # str = str.split(" = ")
-    # print(str)
-    # raw = "lineitem.l_shipdate <= '1998:0803000000'::time stamp without time zone"
-    # raw = re.sub(r"(\w+\.)?(\w+) (>=|<=|=) ('.*')(::.*)", r'\2 <= \4', raw)
-    # print("test",raw)
-    # for node in tree2.all_nodes():
-    #     print(node.tag, node.identifier)
