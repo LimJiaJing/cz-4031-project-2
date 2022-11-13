@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import preprocessing 
 import sqlparse
+import annotation
 
 window = tk.Tk()
 window.title('My Window')
