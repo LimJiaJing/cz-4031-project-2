@@ -46,13 +46,14 @@ canvas.configure(yscrollcommand=scrollbar.set)
 # Function for submit buton
 def get():
      anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
+     raw=text.get()
      text_content = sqlparse.format(raw.strip(), strip_comments=True,
                              reindent=True, keyword_case="upper")
-     text_content = (text_content.replace(" ","")).split("\n")
-     text_content.pop()
-     x=len(text_content)
+     text_array = (text_content.replace(" ","")).split("\n")
+     text_array.pop()
+     x=len(text_array)
      i=0
-     for y in text_content:
+     for y in text_array:
         #generate a Textbox to show the query
         query = tk.Text(scrollable_frame,height=1,width=100)
         query.configure(font=("Courier", 12))
