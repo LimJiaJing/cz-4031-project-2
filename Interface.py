@@ -10,8 +10,45 @@ window.geometry('700x500')
 
 leftside = tk.Frame(window)
 rightside = tk.Frame(window)
+
+#login part of the program
+login = tk.Frame(leftside)
+#necessary infomation for login
+Userlab=tk.Label(login,text = "Username")
+Username= tk.Entry(login, width=50)
+passwordlab=tk.Label(login,text = "Password")
+Pw = tk.Entry(login, width = 50)
+baselab=tk.Label(login,text = "Database")
+Name_of_database =tk.Entry(login, width=50)
+login.pack(pady=5)
+
+Userlab.grid(row=0,column=0,padx = 10,pady = 5)
+Username.grid(row=0,column=1,padx = 10,pady = 5)
+passwordlab.grid(row=1,column=0,padx = 10,pady = 5)
+Pw.grid(row=1,column=1,padx = 10,pady = 5)
+baselab.grid(row=2,column=0,padx = 10,pady = 5)
+Name_of_database.grid(row=2,column=1,padx = 10,pady = 5)
+Pw.pack(pady=5)
+Name_of_database.pack(pady=5)
+logbutton=tk.Button(login, text='login')
+logbutton.pack(pady=5)
 leftside.grid(row=0,column=0,padx = 10,pady = 5)
 rightside.grid(row=0,column=1,padx = 10,pady = 5)
+login = tk.Frame(leftside)
+#necessary infomation for login
+Info = tk.Text(login,height = 4, width = 80,font=("Courier", 12, "italic"),background='gray')
+userlab=tk.Label()
+Username= tk.Entry(login, width=50)
+Pw = tk.Entry(login, width = 50)
+Name_of_database =tk.Entry(login, width=50)
+Infomation = "pls enter you SQL username, password and the name of the database\n  first line for username \n second line for username \n third line for database name"
+Info.insert(tk.INSERT, Infomation)
+login.pack(pady=5)
+Info.pack(pady=5)
+Username.pack(pady=5)
+Pw.pack(pady=5)
+Name_of_database.pack(pady=5)
+logbutton=tk.Button(login, text='login')
 # create a Textbox to accept query in put
 frame = tk.Frame(leftside, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
@@ -37,7 +74,7 @@ container = ttk.Frame(rightside,width= 700,height =700)
 canvas = tk.Canvas(container,width=700,height =700)
 scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas,width= 700,height =700)
-w2 = tk.Label(scrollable_frame, text="annoation box")
+w2 = tk.Label(container, text="annotation box")
 w2.pack(pady=5)
 #update the canvas size to implement the scroll function
 scrollable_frame.bind(
@@ -50,7 +87,7 @@ scrollable_frame.bind(
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
-
+logbutton.pack(pady=5)
 
 # Function for submit buton
 def get():
@@ -93,10 +130,26 @@ def queryget():
     query_content = text.get()
     return query_content
 
+def loginfunction():
+   User = Username.get()
+   if User == '123':
+     button.config(command=get)
+     button1.config(command=clear)
+
+
+   else:
+     newWindow = tk.Toplevel(window)
+     newWindow.geometry("360x200")
+     labelExample = tk.Label(newWindow, text = "failed to login", font=("Courier", 12, "italic"))
+
+     labelExample.place(x=90, y=70)
+logbutton.config(command=loginfunction)
 container.pack()
 canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
-button.config(command=get)
-button1.config(command=clear)
+# button.config(command=get)
+# button1.config(command=clear)
 #continuing refresh the window
+# #continuing refresh the window
+
 window.mainloop()
