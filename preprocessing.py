@@ -1,14 +1,10 @@
 import psycopg2
-import sys
 import json
 import os
 import re
 from collections import defaultdict
-from difflib import SequenceMatcher
 import sqlparse
 import re
-from os import listdir
-from os.path import isfile, join
 
 QEP_FILENAME = "qep.json"
 PLANS_DIRECTORY = "generated_plans"
@@ -296,7 +292,6 @@ def conditions_generator(operation_list, input_string):
     list_of_disables = []
     count = 1
     for i in operation_list:
-        print(i)
         # Gather not in because i dont know where to pu
         # not sure about hash/aggregate
         # if i == "Hash" or i == "Aggregate":
@@ -387,7 +382,6 @@ def aqp_generator(database_conn, query):
         my_data = json.load(f)
     operation_list = generate_operation_list(my_data[0][0][0]["Plan"])
     aqps = conditions_generator(operation_list, query)
-    print(aqps)
     for i in range(len(aqps)):
         cursor = database_conn.cursor()
         cursor.execute(aqps[i])
@@ -487,7 +481,6 @@ def run_preprocessing(query):
     start = connect()
     conn = start[0]
     tables = start[1]
-    # print(tables)
     initialize_dir(PLANS_DIRECTORY)
     query = "SET max_parallel_workers_per_gather = 0;\n" + "SET enable_bitmapscan TO off;\n" + "SET enable_indexonlyscan TO off;\n"+"EXPLAIN (FORMAT JSON, ANALYZE, VERBOSE) " + query
     qep_generator(conn, query)
@@ -495,20 +488,7 @@ def run_preprocessing(query):
 
     ## generate clean json files
     clean_json_files()
-# =======
-#     # read all files
-#     sql_filenames = [f for f in listdir("Queries&Json") if (isfile(join("Queries&Json", f)) and f[-3:] == "sql")]
-#
-#     for sql_filename in sql_filenames:
-#         if sql_filename[-5:] == "e.sql":
-#             continue
-#         f = open("Queries&Json\\"+sql_filename, "r")
-#         sql_file = f.read()
-#         f.close()
-#         query_string = query_asker(sql_file)
-#         qep_generator(conn, query_string, sql_filename)
-#         # aqp_generator(conn, query_string)
-# >>>>>>> Stashed changes
+
 if __name__ == "__main__":
     input_query = query_asker()
     run_preprocessing(input_query)
