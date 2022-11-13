@@ -124,7 +124,7 @@ def modify_line_with_in_keyword(start, query_list):
         except:
             format_string = ""
             if len(split_line[i].split(" ")) > 1:
-                format_string = '\\"'
+                format_string = '"'
             if i != len(split_line) - 1:
                 new_line += format_string + split_line[i] + format_string + ","
             else:
