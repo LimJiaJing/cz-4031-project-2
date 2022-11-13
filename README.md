@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 # Login Details
 
-1. Access the preprocessing file and edit lines 9-12 
+1. Access the preprocessing.py file and edit lines 9-12 
 2. Lines 9-12 will be edited according to the User's Database Account Details
 
 # Two ways to run the program
