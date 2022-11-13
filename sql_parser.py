@@ -124,7 +124,7 @@ def modify_line_with_in_keyword(start, query_list):
         except:
             format_string = ""
             if len(split_line[i].split(" ")) > 1:
-                format_string = '\\"'
+                format_string = '"'
             if i != len(split_line) - 1:
                 new_line += format_string + split_line[i] + format_string + ","
             else:
@@ -165,8 +165,8 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
     regex = re.compile(r'(.*) (>|<|>=|<=) (.*)')
     if re.match(regex, key):
         try:
-            result = str(eval(re.match(regex, key).groups()[2]))
-            if re.search(r'+|-|*|/', result):
+            if re.search(r'\+|\-|\*|\/', key):
+                result = str(eval(re.match(regex, key).groups()[2]))
                 key = re.sub(regex, r'\1 \2 ' + result, key)
         except:
             pass
