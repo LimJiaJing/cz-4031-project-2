@@ -3,13 +3,10 @@ from tkinter import ttk
 
 window = tk.Tk()
 window.title('My Window')
-window.geometry('800x900')  
-leftside = tk.Frame(window)
-rightside = tk.Frame(window)
-
+window.geometry('800x900')
 
 # create a Textbox to accept query in put
-frame = tk.Frame(leftside, height=1000,width=700)
+frame = tk.Frame(window, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
 S1.pack(side=tk.RIGHT,fill='y')
 text = tk.Text(frame,height=40,width=100)
@@ -19,15 +16,15 @@ text.pack()
 frame.pack()
 #create atwo button
 #create a abutton to submit the query
-button = tk.Button(leftside, text='submit')
+button = tk.Button(window, text='submit')
 
 #one button to clear the current annoation
-button1=tk.Button(leftside, text='clear')
+button1=tk.Button(window, text='clear')
 button.pack( pady=5)
 button1.pack( pady=5)
 
 #A scrollableframe for the annoation
-container = ttk.Frame(rightside,width= 700,height =700)
+container = ttk.Frame(window,width= 700,height =700)
 canvas = tk.Canvas(container,width=700,height =700)
 scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas,width= 700,height =700)
@@ -47,7 +44,9 @@ canvas.configure(yscrollcommand=scrollbar.set)
 # Function for submit buton
 def get():
      anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
-     text_content = (text.get("0.0","end").replace(" ","")).split("\n")
+     text_content = sqlparse.format(raw.strip(), strip_comments=True,
+                             reindent=True, keyword_case="upper")
+     text_content = (text_content.replace(" ","")).split("\n")
      text_content.pop()
      x=len(text_content)
      i=0
