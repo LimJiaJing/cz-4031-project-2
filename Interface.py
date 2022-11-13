@@ -10,12 +10,13 @@ window.geometry('900x600')
 
 leftside = tk.Frame(window)
 rightside = tk.Frame(window)
-leftside.grid(row=0,column=0)
-rightside.grid(row=0,column=1)
+leftside.grid(row=0,column=0,padx = 10,pady = 5)
+rightside.grid(row=0,column=1,padx = 10,pady = 5)
 # create a Textbox to accept query in put
 frame = tk.Frame(leftside, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
 S1.pack(side=tk.RIGHT,fill='y')
+w1 = tk.Label(window, text="query input box")
 text = tk.Text(frame,height=30,width=50)
 S1.config(command=text.yview)
 text.configure(yscrollcommand=S1.set)
@@ -35,6 +36,7 @@ container = ttk.Frame(rightside,width= 700,height =700)
 canvas = tk.Canvas(container,width=700,height =700)
 scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas,width= 700,height =700)
+w1 = tk.Label(scrollable_frame, text="annoation box")
 #update the canvas size to implement the scroll function
 scrollable_frame.bind(
     "<Configure>",
