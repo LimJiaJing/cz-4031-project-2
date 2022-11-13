@@ -6,7 +6,7 @@ Install dependencies
 ```
 pip install -r requirements.txt
 ```
-Two ways to run the program
+#Two ways to run the program
 1. Run the python file (project.py)
     * Only works for Windows 10 machine  
 2. Compile the source code and run
