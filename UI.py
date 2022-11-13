@@ -1,5 +1,6 @@
 import tkinter as tk  
 from tkinter import ttk
+from preprocessing import parse_sql
 
 window = tk.Tk()
 window.title('My Window')
@@ -10,6 +11,7 @@ frame = tk.Frame(window, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
 S1.pack(side=tk.RIGHT,fill='y')
 text = tk.Text(frame,height=40,width=100)
+text.get()
 S1.config(command=text.yview)
 text.configure(yscrollcommand=S1.set)
 text.pack()
@@ -75,7 +77,9 @@ def clear():
 
 def queryget():
     query_content = text.get()
-    return query_content
+    query = sqlparse.format(query_content.strip(), strip_comments=True,
+                            reindent=True, keyword_case="upper")
+    return query
 
 container.pack()
 canvas.pack(side="left", fill="both", expand=True)
