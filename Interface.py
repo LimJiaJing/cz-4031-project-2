@@ -10,6 +10,28 @@ window.geometry('700x500')
 
 leftside = tk.Frame(window)
 rightside = tk.Frame(window)
+
+#login part of the program
+login = tk.Frame(leftside)
+#necessary infomation for login
+Userlab=tk.Label(login,text = "Username")
+Username= tk.Entry(login, width=50)
+passwordlab=tk.Label(login,text = "Password")
+Pw = tk.Entry(login, width = 50)
+baselab=tk.Label(login,text = "Database")
+Name_of_database =tk.Entry(login, width=50)
+login.pack(pady=5)
+
+Userlab.grid(row=0,column=0,padx = 10,pady = 5)
+Username.grid(row=0,column=1,padx = 10,pady = 5)
+passwordlab.grid(row=1,column=0,padx = 10,pady = 5)
+Pw.grid(row=1,column=1,padx = 10,pady = 5)
+baselab.grid(row=2,column=0,padx = 10,pady = 5)
+Name_of_database.grid(row=2,column=1,padx = 10,pady = 5)
+Pw.pack(pady=5)
+Name_of_database.pack(pady=5)
+logbutton=tk.Button(login, text='login')
+logbutton.pack(pady=5)
 leftside.grid(row=0,column=0,padx = 10,pady = 5)
 rightside.grid(row=0,column=1,padx = 10,pady = 5)
 # create a Textbox to accept query in put
@@ -93,10 +115,23 @@ def queryget():
     query_content = text.get()
     return query_content
 
+def loginfunction():
+   User = Username.get()
+   if User == '123':
+     button.config(command=get)
+     button1.config(command=clear)
+     print(User)
+   else:
+     newWindow = tk.Toplevel(window)
+     newWindow.geometry("360x200")
+     labelExample = tk.Label(newWindow, text = "failed to login", font=("Courier", 12, "italic"))
+
+     labelExample.place(x=90, y=70)
+logbutton.config(command=loginfunction)
 container.pack()
 canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
-button.config(command=get)
-button1.config(command=clear)
+# button.config(command=get)
+# button1.config(command=clear)
 #continuing refresh the window
 window.mainloop()
