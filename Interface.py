@@ -63,12 +63,12 @@ def get():
      i=0
      for y in text_array:
         #generate a Textbox to show the query
-        query = tk.Text(scrollable_frame,height=1,width=100)
+        query = tk.Text(scrollable_frame,height=1,width=50)
         query.configure(font=("Courier", 12))
         query.insert(tk.INSERT,y)
         query.pack()
         #generate a Textbox for annoation
-        annotation=tk.Text(scrollable_frame,height=4,width=100,background="gray", wrap=tk.WORD)
+        annotation=tk.Text(scrollable_frame,height=4,width=50,background="gray", wrap=tk.WORD)
         annotation.configure(font=("Courier", 12, "italic"))
         anno_content=anno.get(i,"no annotation")
         annotation.insert(tk.INSERT, anno_content)
@@ -82,6 +82,7 @@ def get():
 def clear():
     for query in scrollable_frame.winfo_children():
         query.destroy()
+        text.delete("1.0",'end')
     button["state"]="normal"
 
 def queryget():
