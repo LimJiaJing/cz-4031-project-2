@@ -16,7 +16,7 @@ rightside.grid(row=0,column=1)
 frame = tk.Frame(leftside, height=1000,width=700)
 S1 = tk.Scrollbar(frame)
 S1.pack(side=tk.RIGHT,fill='y')
-text = tk.Text(frame,height=40,width=100)
+text = tk.Text(frame,height=30,width=50)
 S1.config(command=text.yview)
 text.configure(yscrollcommand=S1.set)
 text.pack()
@@ -70,7 +70,7 @@ def get():
         #generate a Textbox for annoation
         annotation=tk.Text(scrollable_frame,height=2,width=100,background="gray" )
         annotation.configure(font=("Courier", 12, "italic"))
-        anno_content=anno.get(i,"no anno")
+        anno_content=anno.get(i,"no annotation")
         annotation.insert(tk.INSERT, anno_content)
         annotation.pack()
         #fix the Textbox after generation
