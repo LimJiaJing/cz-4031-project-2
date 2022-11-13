@@ -6,7 +6,7 @@ import annotation as annotation_comp
 
 window = tk.Tk()
 window.title('My Window')
-window.geometry('900x600')
+window.geometry('700x500')
 
 leftside = tk.Frame(window)
 rightside = tk.Frame(window)
@@ -57,7 +57,7 @@ def get():
      anno=annotation_comp.generate_annotation(text_content)
     #  anno={0: 'anno 0', 1: 'anno 1', 2: 'anno 2', 3: 'anno 3',  4: 'anno 4'}
      
-     text_array = (text_content.replace(" ","")).split("\n")
+     text_array = [line.strip() for line in text_content.split("\n")]
      text_array.pop()
      x=len(text_array)
      i=0
