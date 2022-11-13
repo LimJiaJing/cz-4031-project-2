@@ -206,14 +206,18 @@ def remove_unwanted_keywords(key, has_in_keyword=False):
 def connect():
     # login instructions
     username = "postgres"
-    password = "cz4031group34"
+    password = "2312eqwqrw"
     database = "TPC-H"
     login_data = f"dbname={database} user={username} password={password}"
     conn = None
 
     print('Connecting to the PostgreSQL database...')
 
-    conn = psycopg2.connect(login_data)
+    try:
+        conn = psycopg2.connect(login_data)
+    except:
+        print("Error!")
+        exit()
     print('Connected')
     print("\n\n")
     cur = conn.cursor()
