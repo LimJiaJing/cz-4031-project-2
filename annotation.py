@@ -71,7 +71,7 @@ def compare_plan(qep_tuple, aqp_tuples):
     return " ".join(explanation)
 
 def get_node_type(str):
-    joins = ["Hash Join", "Merge Join", "Index-based Join", "Nested Loop"]
+    joins = ["Hash Join", "Merge Join", "Index Join", "Nested Loop"]
     scans = ["Seq Scan", "Index Scan", "Index Only Scan"]
 
     for join in joins:
